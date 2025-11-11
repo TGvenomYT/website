@@ -41,4 +41,3 @@ To run this project locally, follow these steps:
 
 ---
 
-*This README was generated with the help of an AI assistant.*
