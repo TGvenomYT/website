@@ -1,547 +1,366 @@
-// Projects Data
-const projectsData = [
+/* =====================================================
+   NIRANJAN · Portfolio
+   ===================================================== */
+
+// ----- DATA -----
+
+const featuredProjects = [
   {
-    "category": "AI/ML",
-    "title": "Conversational AI with RAG",
-    "description": "Developed a conversational AI system using Retrieval-Augmented Generation (RAG) to provide accurate and context-aware responses. Integrated with ChromaDB for efficient vector storage and retrieval.",
-    "icon": "🤖",
-    "stats": "Python, PyTorch, Transformers, ChromaDB",
-    "examples": ["GitHub Repo", "Demo Video"]
+    eyebrow: "Featured project",
+    title: "Conversational AI with RAG",
+    description:
+      "A context-aware chatbot that grounds answers in a private knowledge base. Built a sentence-transformer embedding pipeline, indexed documents in ChromaDB, and wired retrieval into prompt assembly — so the LLM stops hallucinating and starts citing.",
+    tech: ["Python", "PyTorch", "Transformers", "ChromaDB", "LangChain"],
+    glyph: "◆",
+    links: [
+      { label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" },
+      { label: "Live demo", href: "https://github.com/TGvenomYT", icon: "external" }
+    ]
   },
   {
-    "category": "AI/ML",
-    "title": "Image Classification with Transformers",
-    "description": "Built and trained a vision transformer model for high-accuracy image classification. Utilized Hugging Face for pre-trained models and fine-tuning.",
-    "icon": "🖼️",
-    "stats": "Python, PyTorch, Hugging Face",
-    "examples": ["GitHub Repo", "Dataset"]
+    eyebrow: "Featured project",
+    title: "Vision Transformer Classifier",
+    description:
+      "Fine-tuned a pretrained ViT on a custom dataset for multi-class image classification. Implemented mixed-precision training, augmentation pipelines, and evaluation on held-out data — getting clean confusion-matrix performance without overfitting.",
+    tech: ["Python", "PyTorch", "Hugging Face", "ViT"],
+    glyph: "◇",
+    links: [
+      { label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }
+    ]
   },
   {
-    "category": "AI Automation",
-    "title": "Automated Content Generation",
-    "description": "Created an automated workflow with n8n to generate content using Ollama models. The system fetches data, processes it, and generates human-like text.",
-    "icon": "⚙️",
-    "stats": "n8n, Ollama, Python",
-    "examples": ["Workflow Demo", "Generated Content"]
-  },
-  {
-    "category": "Data Engineering",
-    "title": "Data Pipeline for ML",
-    "description": "Designed and implemented a data pipeline using SQL and Python to collect, clean, and prepare data for machine learning models.",
-    "icon": "📊",
-    "stats": "Python, SQL, Pandas",
-    "examples": ["GitHub Repo", "Schema Diagram"]
+    eyebrow: "Featured project",
+    title: "Self-Hosted LLM Automation",
+    description:
+      "End-to-end content workflow powered by local Ollama models. Built n8n nodes that pull data, send it through a quantized LLM for summarization and rewriting, and ship structured output — all on-prem, no cloud API spend.",
+    tech: ["n8n", "Ollama", "Python", "REST APIs"],
+    glyph: "◈",
+    links: [
+      { label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }
+    ]
   }
 ];
 
-// Skills Data
-const skillsData = [
+const otherProjects = [
   {
-    "label": "Python",
-    "value": "95",
-    "unit": "%",
-    "year": "PyTorch"
+    icon: "📊",
+    title: "ML Data Pipeline",
+    description:
+      "ETL pipeline that collects, normalizes, and prepares training data for ML models — with schema validation, dedup, and pandas-based feature engineering.",
+    tech: ["Python", "SQL", "Pandas"],
+    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
   },
   {
-    "label": "SQL",
-    "value": "90",
-    "unit": "%",
-    "year": "Database Management"
+    icon: "🧠",
+    title: "LLM Playground",
+    description:
+      "Unified front-end over multiple Ollama models. Switch models, stream tokens, and benchmark latency vs quality on consumer hardware.",
+    tech: ["Ollama", "Python", "FastAPI"],
+    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
   },
   {
-    "label": "Transformers",
-    "value": "85",
-    "unit": "%",
-    "year": "Hugging Face"
+    icon: "🪄",
+    title: "Tool-Using LLM Agent",
+    description:
+      "Experimental ReAct-style agent that decides when to call tools — search, calculator, file I/O — using a local LLM for full privacy.",
+    tech: ["Python", "Ollama", "ReAct"],
+    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
   },
   {
-    "label": "RAG",
-    "value": "80",
-    "unit": "%",
-    "year": "ChromaDB"
+    icon: "🔍",
+    title: "Embedding Visualizer",
+    description:
+      "Projects sentence embeddings into 2D using UMAP and renders them interactively — making it easier to debug semantic search quality.",
+    tech: ["Python", "UMAP", "Matplotlib"],
+    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+  },
+  {
+    icon: "⚡",
+    title: "Fast Inference API",
+    description:
+      "FastAPI wrapper around local LLMs with streaming responses, request queuing, and basic rate limiting — production-grade ergonomics.",
+    tech: ["FastAPI", "Python", "Async"],
+    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+  },
+  {
+    icon: "🐍",
+    title: "Python Learning Notes",
+    description:
+      "Open-source notes and worked examples from my deep dive into ML fundamentals — tensors, autograd, transformer internals, attention mechanisms.",
+    tech: ["Python", "PyTorch", "Notebooks"],
+    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
   }
 ];
 
-// Experience Data
-const experienceData = [
+const stackItems = [
+  { icon: "🐍", name: "Python",       desc: "Primary language" },
+  { icon: "🔥", name: "PyTorch",      desc: "Deep learning" },
+  { icon: "🤗", name: "Transformers", desc: "Hugging Face" },
+  { icon: "💎", name: "ChromaDB",     desc: "Vector store" },
+  { icon: "🦙", name: "Ollama",       desc: "Local LLMs" },
+  { icon: "🦜", name: "LangChain",    desc: "LLM orchestration" },
+  { icon: "⚙️", name: "n8n",          desc: "Workflow automation" },
+  { icon: "⚡", name: "FastAPI",      desc: "Python APIs" },
+  { icon: "🐼", name: "Pandas",       desc: "Data wrangling" },
+  { icon: "🐘", name: "PostgreSQL",   desc: "Relational DB" },
+  { icon: "🔧", name: "Git",          desc: "Version control" },
+  { icon: "🐧", name: "Linux",        desc: "Platform" }
+];
+
+const journey = [
   {
-    "year": "Present",
-    "title": "School Education",
-    "description": "Currently pursuing school education with a strong focus on science and mathematics, building a solid foundation for future studies in technology."
+    key: "ai-builder",
+    label: "AI Builder",
+    title: "AI/ML Engineer",
+    where: "Independent",
+    period: "2024 — Present",
+    points: [
+      "Building and shipping end-to-end AI systems — RAG-grounded chatbots, vision transformers, and agentic LLM tools.",
+      "Working with PyTorch, Hugging Face Transformers, ChromaDB, Ollama, and LangChain to turn ideas into production-ready applications.",
+      "Sharing notes, experiments, and source code publicly on GitHub as I learn."
+    ]
   },
   {
-    "year": "2021 - Present",
-    "title": "AI/ML Enthusiast & Self-Learner",
-    "description": "Actively engaged in self-learning and personal projects in AI/ML. Explored various frameworks like PyTorch, applied concepts of RAG and Transformers, and utilized tools like Hugging Face and Ollama."
+    key: "deep-dive",
+    label: "ML Deep Dive",
+    title: "Deep Learning Self-Study",
+    where: "Self-directed",
+    period: "2022 — Present",
+    points: [
+      "Working through PyTorch fundamentals — tensors, autograd, training loops, mixed precision.",
+      "Studying transformer architecture, attention mechanisms, embeddings, and modern fine-tuning techniques.",
+      "Reading papers on arXiv and reproducing key results to build intuition, not just vocabulary."
+    ]
   },
   {
-    "year": "Prior to 2021",
-    "title": "Foundational Studies",
-    "description": "Completed foundational coursework in programming (Python), mathematics, and basic data science concepts, building a strong base for advanced studies."
+    key: "school",
+    label: "School",
+    title: "School Education",
+    where: "Science Stream",
+    period: "2021 — Present",
+    points: [
+      "Pursuing formal school education with focus on physics, math, and computer science.",
+      "Building the mathematical foundation — linear algebra, calculus, probability — that machine learning depends on.",
+      "Balancing academic curriculum with self-directed engineering projects."
+    ]
+  },
+  {
+    key: "origin",
+    label: "Origin",
+    title: "Discovering Programming",
+    where: "Before 2021",
+    period: "Before 2021",
+    points: [
+      "First contact with Python and the joy of making computers do things.",
+      "Worked through basic algorithms, data structures, and the foundations of computer science.",
+      "The spark that turned a curious kid into someone who couldn't stop building."
+    ]
   }
 ];
 
-class PortfolioWebsite {
+// SVG icons used in feature links
+const ICONS = {
+  github: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>',
+  external: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+};
+
+// =====================================================
+// APP
+// =====================================================
+
+class Portfolio {
   constructor() {
-    this.init();
+    this.renderFeatured();
+    this.renderOther();
+    this.renderStack();
+    this.renderTabs();
+
+    this.spotlight();
+    this.scrollHeader();
+    this.smoothScroll();
+    this.activeSection();
+    this.hamburger();
+    this.scrollReveal();
   }
 
-  init() {
-    this.setupCustomCursor();
-    this.setupScrollProgress();
-    this.setupSmoothScrolling();
-    this.setupTypingAnimation();
-    this.populateProjects();
-    this.populateSkills();
-    this.populateExperience();
-    this.setupScrollAnimations();
-    this.setupForms();
-    this.setupParticles();
+  // ---------- Featured ----------
+  renderFeatured() {
+    const root = document.getElementById('featuredList');
+    if (!root) return;
+    root.innerHTML = featuredProjects.map(p => `
+      <article class="feat reveal">
+        <a class="feat-visual" href="${p.links[0]?.href || '#'}" target="_blank" rel="noopener" aria-label="${p.title}">
+          <div class="feat-pattern"></div>
+          <span class="feat-glyph" aria-hidden="true">${p.glyph}</span>
+        </a>
+        <div class="feat-content">
+          <p class="feat-eyebrow">${p.eyebrow}</p>
+          <h3 class="feat-title">${p.title}</h3>
+          <p class="feat-desc">${p.description}</p>
+          <ul class="feat-tech">
+            ${p.tech.map(t => `<li>${t}</li>`).join('')}
+          </ul>
+          <div class="feat-links">
+            ${p.links.map(l => `<a href="${l.href}" target="_blank" rel="noopener" aria-label="${l.label}">${ICONS[l.icon] || ''}</a>`).join('')}
+          </div>
+        </div>
+      </article>
+    `).join('');
   }
 
-  // Custom Cursor
-  setupCustomCursor() {
-    const cursor = document.querySelector('.cursor');
-    const cursorTrail = document.querySelector('.cursor-trail');
-    
-    if (!cursor || !cursorTrail) return;
+  // ---------- Other projects ----------
+  renderOther() {
+    const root = document.getElementById('otherList');
+    if (!root) return;
+    root.innerHTML = otherProjects.map(p => `
+      <article class="other-card reveal">
+        <div class="other-head">
+          <span class="other-icon" aria-hidden="true">${p.icon}</span>
+          <div class="other-links">
+            ${p.links.map(l => `<a class="other-link" href="${l.href}" target="_blank" rel="noopener" aria-label="${l.label}">${ICONS[l.icon] || ''}</a>`).join('')}
+          </div>
+        </div>
+        <h4 class="other-title">${p.title}</h4>
+        <p class="other-desc">${p.description}</p>
+        <ul class="other-tech">
+          ${p.tech.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </article>
+    `).join('');
+  }
 
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      
-      setTimeout(() => {
-        cursorTrail.style.left = e.clientX + 'px';
-        cursorTrail.style.top = e.clientY + 'px';
-      }, 100);
-    });
+  // ---------- Stack ----------
+  renderStack() {
+    const root = document.getElementById('stackGrid');
+    if (!root) return;
+    root.innerHTML = stackItems.map(s => `
+      <div class="stack-item">
+        <div class="stack-item-head">
+          <span class="stack-icon" aria-hidden="true">${s.icon}</span>
+          <span class="stack-name">${s.name}</span>
+        </div>
+        <span class="stack-desc">${s.desc}</span>
+      </div>
+    `).join('');
+  }
 
-    // Cursor interactions
-    const interactiveElements = document.querySelectorAll('button, a, .demo-card, .application-card');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(1.5)';
-        cursor.style.backgroundColor = 'rgba(0, 212, 255, 0.2)';
+  // ---------- Tabs ----------
+  renderTabs() {
+    const list  = document.getElementById('tabList');
+    const panel = document.getElementById('tabPanel');
+    if (!list || !panel) return;
+
+    list.innerHTML = journey.map((j, i) => `
+      <button class="tab-btn${i === 0 ? ' active' : ''}" role="tab" data-key="${j.key}">${j.label}</button>
+    `).join('');
+
+    const renderPanel = (key) => {
+      const j = journey.find(x => x.key === key);
+      if (!j) return;
+      panel.innerHTML = `
+        <div class="tab-content">
+          <h3 class="tab-title">${j.title} <span class="tab-title-where">· ${j.where}</span></h3>
+          <p class="tab-period">${j.period}</p>
+          <ul class="tab-points">
+            ${j.points.map(p => `<li>${p}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    };
+
+    renderPanel(journey[0].key);
+
+    list.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        list.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderPanel(btn.dataset.key);
       });
-      
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-        cursor.style.backgroundColor = 'transparent';
-      });
     });
   }
 
-  // Scroll Progress Indicator
-  setupScrollProgress() {
-    const progressBar = document.querySelector('.scroll-progress');
-    if (!progressBar) return;
+  // ---------- Mouse spotlight ----------
+  spotlight() {
+    const sp = document.querySelector('.spotlight');
+    if (!sp) return;
+    if (window.matchMedia('(hover: none)').matches) return;
 
-    window.addEventListener('scroll', () => {
-      const scrollTop = document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollProgress = (scrollTop / scrollHeight) * 100;
-      
-      progressBar.style.transform = `scaleX(${scrollProgress / 100})`;
-    });
+    document.addEventListener('mousemove', e => {
+      sp.style.setProperty('--mx', `${e.clientX}px`);
+      sp.style.setProperty('--my', `${e.clientY}px`);
+    }, { passive: true });
   }
 
-  // Smooth Scrolling Navigation
-  setupSmoothScrolling() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const heroButtons = document.querySelectorAll('[data-scroll]');
-    
-    [...navLinks, ...heroButtons].forEach(link => {
-      link.addEventListener('click', (e) => {
+  // ---------- Header scroll ----------
+  scrollHeader() {
+    const header = document.querySelector('.header');
+    if (!header) return;
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // ---------- Smooth scroll ----------
+  smoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (!id || id === '#') return;
+        const t = document.querySelector(id);
+        if (!t) return;
         e.preventDefault();
-        const targetId = link.getAttribute('href') || `#${link.dataset.scroll}`;
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
+        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Close mobile menu if open
+        document.getElementById('nav')?.classList.remove('open');
+        document.getElementById('navToggle')?.classList.remove('open');
       });
     });
   }
 
-  // Typing Animation
-  setupTypingAnimation() {
-    const typingElement = document.querySelector('.typing-text');
-    if (!typingElement) return;
+  // ---------- Active section in nav ----------
+  activeSection() {
+    const links = document.querySelectorAll('.nav-link');
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!sections.length) return;
 
-    const words = typingElement.dataset.words.split(',');
-    let currentWordIndex = 0;
-    let currentCharIndex = 0;
-    let isDeleting = false;
-
-    const typeWriter = () => {
-      const currentWord = words[currentWordIndex];
-      
-      if (isDeleting) {
-        typingElement.textContent = currentWord.substring(0, currentCharIndex - 1);
-        currentCharIndex--;
-        
-        if (currentCharIndex === 0) {
-          isDeleting = false;
-          currentWordIndex = (currentWordIndex + 1) % words.length;
-          setTimeout(typeWriter, 500);
-          return;
-        }
-      } else {
-        typingElement.textContent = currentWord.substring(0, currentCharIndex + 1);
-        currentCharIndex++;
-        
-        if (currentCharIndex === currentWord.length) {
-          isDeleting = true;
-          setTimeout(typeWriter, 2000);
-          return;
-        }
+    const onScroll = () => {
+      const y = window.scrollY + 140;
+      let current = sections[0].id;
+      for (const s of sections) {
+        if (s.offsetTop <= y) current = s.id;
       }
-      
-      setTimeout(typeWriter, isDeleting ? 50 : 100);
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
     };
-
-    typeWriter();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
-  // Scroll Animations using Intersection Observer
-  setupScrollAnimations() {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
+  // ---------- Hamburger ----------
+  hamburger() {
+    const toggle = document.getElementById('navToggle');
+    const nav    = document.getElementById('nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      nav.classList.toggle('open');
+    });
+  }
 
-    const observer = new IntersectionObserver((entries) => {
+  // ---------- Scroll reveal ----------
+  scrollReveal() {
+    const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          
-          // Special handling for different elements
-          if (entry.target.classList.contains('application-card')) {
-            this.animateApplicationCard(entry.target);
-          }
-          
-          if (entry.target.classList.contains('stat-card')) {
-            this.animateStatCard(entry.target);
-          }
-          
-          if (entry.target.classList.contains('timeline-item')) {
-            this.animateTimelineItem(entry.target);
-          }
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
       });
-    }, observerOptions);
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-    // Observe elements
-    const animatedElements = document.querySelectorAll('.application-card, .demo-card, .stat-card, .timeline-item');
-    animatedElements.forEach((el, index) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(50px)';
-      el.style.transition = `all 0.6s ease ${index * 0.1}s`;
-      observer.observe(el);
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${Math.min(i * 60, 400)}ms`;
+      io.observe(el);
     });
-  }
-
-  animateApplicationCard(card) {
-    const icon = card.querySelector('.app-icon');
-    if (icon) {
-      setTimeout(() => {
-        icon.style.animation = 'bounce 0.6s ease';
-      }, 200);
-    }
-  }
-
-  animateStatCard(card) {
-    const number = card.querySelector('.stat-number');
-    if (number) {
-      const target = parseInt(number.textContent);
-      this.animateCounter(number, 0, target, 2000);
-    }
-    
-    const progressRing = card.querySelector('.progress-ring');
-    if (progressRing) {
-      setTimeout(() => {
-        this.animateProgressRing(progressRing);
-      }, 200);
-    }
-  }
-
-  animateTimelineItem(item) {
-    const content = item.querySelector('.timeline-content');
-    if (content) {
-      setTimeout(() => {
-        content.style.transform = 'scale(1.02)';
-        setTimeout(() => {
-          content.style.transform = 'scale(1)';
-        }, 200);
-      }, 300);
-    }
-  }
-
-  // Counter Animation
-  animateCounter(element, start, end, duration) {
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
-    
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= end) {
-        current = end;
-        clearInterval(timer);
-      }
-      element.textContent = Math.floor(current);
-    }, 16);
-  }
-
-  // Progress Ring Animation
-  animateProgressRing(ring) {
-    const progressBar = ring.querySelector('.progress-bar');
-    const percentage = ring.dataset.percentage;
-    const circumference = 2 * Math.PI * 52; // radius is 52
-    
-    progressBar.style.strokeDasharray = circumference;
-    progressBar.style.strokeDashoffset = circumference;
-    
-    setTimeout(() => {
-      const offset = circumference - (percentage / 100) * circumference;
-      progressBar.style.strokeDashoffset = offset;
-    }, 500);
-  }
-
-  // Populate Projects
-  populateProjects() {
-    const grid = document.getElementById('applicationsGrid');
-    if (!grid) return;
-
-    grid.innerHTML = projectsData.map(app => `
-      <div class="application-card">
-        <div class="app-icon">${app.icon}</div>
-        <h3 class="app-title">${app.title}</h3>
-        <p class="app-description">${app.description}</p>
-        <div class="app-stats">${app.stats}</div>
-        <div class="app-examples">
-          ${app.examples.map(example => `<span class="app-example">${example}</span>`).join('')}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // Populate Skills
-  populateSkills() {
-    const grid = document.getElementById('statsGrid');
-    if (!grid) return;
-
-    grid.innerHTML = skillsData.map(stat => `
-      <div class="stat-card">
-        <div class="progress-ring" data-percentage="${stat.value}">
-          <svg>
-            <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
-            <circle class="progress-bar" cx="60" cy="60" r="52"></circle>
-          </svg>
-        </div>
-        <span class="stat-number">${stat.value}</span>
-        <span class="stat-unit">${stat.unit}</span>
-        <div class="stat-label">${stat.label}</div>
-        <div class="stat-year">${stat.year}</div>
-      </div>
-    `).join('');
-  }
-
-  // Populate Experience
-  populateExperience() {
-    const timeline = document.getElementById('timeline');
-    if (!timeline) return;
-
-    timeline.innerHTML = experienceData.map(item => `
-      <div class="timeline-item">
-        <div class="timeline-content">
-          <h3 class="timeline-title">${item.title}</h3>
-          <p class="timeline-description">${item.description}</p>
-        </div>
-        <div class="timeline-year">${item.year}</div>
-      </div>
-    `).join('');
-  }
-
-  // Setup Forms
-  setupForms() {
-    this.setupContactForm();
-    this.setupNewsletterForm();
-    this.setupFloatingLabels();
-  }
-
-  setupContactForm() {
-    const form = document.getElementById('contactForm');
-    if (!form) return;
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const button = form.querySelector('button[type="submit"]');
-      const buttonText = button.querySelector('.btn-text');
-      const buttonSpinner = button.querySelector('.btn-spinner');
-      
-      buttonText.classList.add('hidden');
-      buttonSpinner.classList.remove('hidden');
-      button.disabled = true;
-      
-      setTimeout(() => {
-        buttonText.classList.remove('hidden');
-        buttonSpinner.classList.add('hidden');
-        button.disabled = false;
-        
-        // Show success message
-        const successMessage = document.createElement('div');
-        successMessage.className = 'success-message';
-        successMessage.innerHTML = '<span class="success-icon">✓</span><span>Message sent successfully!</span>';
-        form.appendChild(successMessage);
-        
-        form.reset();
-        
-        setTimeout(() => {
-          successMessage.remove();
-        }, 3000);
-      }, 2000);
-    });
-  }
-
-  setupNewsletterForm() {
-    const form = document.getElementById('newsletterForm');
-    if (!form) return;
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const button = form.querySelector('button');
-      const successMessage = form.parentElement.querySelector('.success-message');
-      
-      button.textContent = 'Subscribing...';
-      button.disabled = true;
-      
-      setTimeout(() => {
-        button.textContent = 'Subscribe';
-        button.disabled = false;
-        form.reset();
-        successMessage.classList.remove('hidden');
-        
-        setTimeout(() => {
-          successMessage.classList.add('hidden');
-        }, 3000);
-      }, 1500);
-    });
-  }
-
-  setupFloatingLabels() {
-    const inputs = document.querySelectorAll('.form-control');
-    inputs.forEach(input => {
-      // Add placeholder attribute for CSS selector
-      if (!input.placeholder) {
-        input.placeholder = ' ';
-      }
-      
-      input.addEventListener('focus', () => {
-        const label = input.nextElementSibling;
-        if (label && label.classList.contains('floating-label')) {
-          label.style.color = '#00D4FF';
-        }
-      });
-      
-      input.addEventListener('blur', () => {
-        const label = input.nextElementSibling;
-        if (label && label.classList.contains('floating-label')) {
-          label.style.color = '#94A3B8';
-        }
-      });
-    });
-  }
-
-  // Setup Particles
-  setupParticles() {
-    this.createFloatingParticles();
-  }
-
-  createFloatingParticles() {
-    const heroSection = document.getElementById('hero');
-    if (!heroSection) return;
-
-    // Create additional floating particles
-    for (let i = 0; i < 15; i++) {
-      const particle = document.createElement('div');
-      particle.style.position = 'absolute';
-      particle.style.width = '4px';
-      particle.style.height = '4px';
-      particle.style.background = '#00D4FF';
-      particle.style.borderRadius = '50%';
-      particle.style.opacity = Math.random() * 0.6 + 0.2;
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      particle.style.animation = `float ${4 + Math.random() * 4}s ease-in-out infinite`;
-      particle.style.animationDelay = Math.random() * 4 + 's';
-      particle.style.boxShadow = '0 0 10px #00D4FF';
-      
-      const particles = heroSection.querySelector('.hero-particles');
-      if (particles) {
-        particles.appendChild(particle);
-      }
-    }
   }
 }
 
-// Initialize the website when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  new PortfolioWebsite();
-});
-
-// Add some additional interactive effects
-document.addEventListener('DOMContentLoaded', () => {
-  // Navbar scroll effect
-  const nav = document.querySelector('.nav');
-  if (nav) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        nav.style.background = 'rgba(15, 23, 42, 0.95)';
-      } else {
-        nav.style.background = 'rgba(15, 23, 42, 0.9)';
-      }
-    });
-  }
-
-  // Add hover effects to social links
-  const socialLinks = document.querySelectorAll('.social-link');
-  socialLinks.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      const icon = link.querySelector('.social-icon');
-      if (icon) {
-        icon.style.animation = 'bounce 0.5s ease';
-      }
-    });
-    
-    link.addEventListener('mouseleave', () => {
-      const icon = link.querySelector('.social-icon');
-      if (icon) {
-        icon.style.animation = 'none';
-      }
-    });
-  });
-
-  // Add parallax effect to hero visual
-  const heroVisual = document.querySelector('.hero-visual');
-  if (heroVisual) {
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const parallax = scrolled * 0.5;
-      heroVisual.style.transform = `translateY(${parallax}px)`;
-    });
-  }
-
-  // Add stagger animation to application cards
-  const appCards = document.querySelectorAll('.application-card');
-  appCards.forEach((card, index) => {
-    card.style.animationDelay = `${index * 0.1}s`;
-  });
-});
-
+document.addEventListener('DOMContentLoaded', () => new Portfolio());
