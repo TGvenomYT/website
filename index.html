@@ -19,6 +19,48 @@
     <!-- Mouse-follow spotlight -->
     <div class="spotlight" aria-hidden="true"></div>
 
+    <!-- Tech circuit pattern -->
+    <svg class="circuit-pattern" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:rgba(167,139,250,0.1);stop-opacity:1" />
+          <stop offset="100%" style="stop-color:rgba(125,211,252,0.05);stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <!-- Animated connection lines -->
+      <line class="circuit-line" x1="100" y1="100" x2="300" y2="150" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="300" y1="150" x2="500" y2="100" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="500" y1="100" x2="700" y2="200" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="700" y1="200" x2="900" y2="150" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="900" y1="150" x2="1100" y2="250" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+
+      <line class="circuit-line" x1="150" y1="400" x2="400" y2="380" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="400" y1="380" x2="650" y2="450" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="650" y1="450" x2="850" y2="400" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="850" y1="400" x2="1050" y2="500" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+
+      <line class="circuit-line" x1="200" y1="650" x2="450" y2="700" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="450" y1="700" x2="700" y2="650" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="700" y1="650" x2="950" y2="720" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+
+      <!-- Vertical connections -->
+      <line class="circuit-line" x1="300" y1="150" x2="300" y2="400" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="650" y1="100" x2="650" y2="450" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+      <line class="circuit-line" x1="950" y1="150" x2="950" y2="650" stroke="url(#circuitGradient)" stroke-width="1.5"/>
+
+      <!-- Node dots -->
+      <circle class="circuit-node" cx="100" cy="100" r="3" fill="rgba(167,139,250,0.3)"/>
+      <circle class="circuit-node" cx="300" cy="150" r="3" fill="rgba(167,139,250,0.3)"/>
+      <circle class="circuit-node" cx="500" cy="100" r="3" fill="rgba(125,211,252,0.3)"/>
+      <circle class="circuit-node" cx="700" cy="200" r="3" fill="rgba(167,139,250,0.3)"/>
+      <circle class="circuit-node" cx="900" cy="150" r="3" fill="rgba(125,211,252,0.3)"/>
+      <circle class="circuit-node" cx="1100" cy="250" r="3" fill="rgba(167,139,250,0.3)"/>
+      <circle class="circuit-node" cx="400" cy="380" r="3" fill="rgba(125,211,252,0.3)"/>
+      <circle class="circuit-node" cx="650" cy="450" r="3" fill="rgba(167,139,250,0.3)"/>
+      <circle class="circuit-node" cx="450" cy="700" r="3" fill="rgba(125,211,252,0.3)"/>
+      <circle class="circuit-node" cx="700" cy="650" r="3" fill="rgba(167,139,250,0.3)"/>
+    </svg>
+
 
     <!-- Top nav -->
     <header class="header">
