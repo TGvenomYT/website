@@ -1127,12 +1127,17 @@ body::after {
 }
 
 /* Carousel controls */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.4rem;
+}
+
 .carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: 1.5px solid var(--border);
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-2);
@@ -1142,25 +1147,19 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  flex-shrink: 0;
 }
 .carousel-btn:hover {
   border-color: var(--accent);
   background: rgba(167, 139, 250, 0.1);
   color: var(--accent);
-}
-.carousel-prev {
-  left: -60px;
-}
-.carousel-next {
-  right: -60px;
+  transform: scale(1.05);
 }
 
 .carousel-dots {
   display: flex;
   justify-content: center;
   gap: 0.8rem;
-  margin-top: 2.4rem;
   padding: 0 1rem;
 }
 .carousel-dot {
@@ -1183,23 +1182,6 @@ body::after {
   background: rgba(167, 139, 250, 0.4);
 }
 
-@media (max-width: 900px) {
-  .carousel-prev, .carousel-next {
-    position: relative;
-    top: auto;
-    transform: none;
-    left: auto;
-    right: auto;
-    margin: 0 0.5rem;
-  }
-  .testimonials-carousel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
-}
-
 @media (max-width: 640px) {
   .testimonial-card {
     padding: 2rem;
@@ -1208,9 +1190,12 @@ body::after {
     font-size: 1rem;
     padding-left: 1.5rem;
   }
-  .carousel-prev, .carousel-next {
+  .carousel-btn {
     width: 36px;
     height: 36px;
+  }
+  .carousel-controls {
+    gap: 1.2rem;
   }
 }
 
