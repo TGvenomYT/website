@@ -345,12 +345,14 @@ class Portfolio {
     `).join('');
   }
 
-  // ---------- Testimonials ----------
+  // ---------- Testimonials Carousel ----------
   renderTestimonials() {
-    const root = document.getElementById('testimonialsGrid');
-    if (!root) return;
-    root.innerHTML = testimonials.map(t => `
-      <article class="testimonial-card reveal">
+    const track = document.getElementById('testimonialsTrack');
+    const dotsContainer = document.getElementById('testimonialsDots');
+    if (!track || !dotsContainer) return;
+
+    track.innerHTML = testimonials.map((t, i) => `
+      <article class="testimonial-card ${i === 0 ? 'active' : ''}">
         <p class="testimonial-quote">${t.quote}</p>
         <div class="testimonial-author">
           <div class="testimonial-name">${t.name}</div>
@@ -358,6 +360,69 @@ class Portfolio {
         </div>
       </article>
     `).join('');
+
+    dotsContainer.innerHTML = testimonials.map((_, i) => `
+      <button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to testimonial ${i + 1}"></button>
+    `).join('');
+
+    this.setupTestimonialCarousel();
+  }
+
+  setupTestimonialCarousel() {
+    let currentIndex = 0;
+    const cards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const prevBtn = document.getElementById('testimonialsPrev');
+    const nextBtn = document.getElementById('testimonialsNext');
+    let autoplayInterval;
+
+    const updateCarousel = (index) => {
+      cards.forEach((card, i) => {
+        card.classList.remove('active', 'prev');
+        if (i === index) {
+          card.classList.add('active');
+        } else if (i < index) {
+          card.classList.add('prev');
+        }
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    };
+
+    const nextSlide = () => {
+      currentIndex = (currentIndex + 1) % testimonials.length;
+      updateCarousel(currentIndex);
+      resetAutoplay();
+    };
+
+    const prevSlide = () => {
+      currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+      updateCarousel(currentIndex);
+      resetAutoplay();
+    };
+
+    const resetAutoplay = () => {
+      clearInterval(autoplayInterval);
+      startAutoplay();
+    };
+
+    const startAutoplay = () => {
+      autoplayInterval = setInterval(nextSlide, 5000);
+    };
+
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        currentIndex = parseInt(dot.dataset.index);
+        updateCarousel(currentIndex);
+        resetAutoplay();
+      });
+    });
+
+    startAutoplay();
   }
 
   // ---------- Insights ----------
