@@ -4,6 +4,13 @@
 
 // ----- DATA -----
 
+const stats = [
+  { value: "15+", label: "Projects shipped", desc: "RAG, Vision, Automation" },
+  { value: "100%", label: "Self-taught", desc: "Learning by building" },
+  { value: "4+", label: "Years coding", desc: "Python, ML, DevOps" },
+  { value: "Open", label: "To opportunities", desc: "Remote or relocation" }
+];
+
 const featuredProjects = [
   {
     eyebrow: "Featured project",
@@ -107,6 +114,114 @@ const stackItems = [
   { icon: "🐧", name: "Linux",        desc: "Platform" }
 ];
 
+const achievements = [
+  {
+    icon: "🏆",
+    title: "Self-Taught Engineer",
+    desc: "Built production AI systems without formal ML degree. Learned by shipping real projects."
+  },
+  {
+    icon: "📚",
+    title: "Deep Learning Mastery",
+    desc: "In-depth understanding of transformers, attention mechanisms, and modern LLM architecture."
+  },
+  {
+    icon: "🚀",
+    title: "Full-Stack AI Systems",
+    desc: "End-to-end expertise from model training to production deployment and optimization."
+  },
+  {
+    icon: "🔐",
+    title: "Privacy-First AI",
+    desc: "Specialist in local LLMs and on-prem solutions. No cloud dependency, full control."
+  },
+  {
+    icon: "💡",
+    title: "RAG Architect",
+    desc: "Designed and implemented sophisticated retrieval-augmented generation pipelines at scale."
+  },
+  {
+    icon: "⚡",
+    title: "Performance Optimized",
+    desc: "Expertise in inference optimization, quantization, and cost-effective model deployment."
+  }
+];
+
+const testimonials = [
+  {
+    quote: "Niranjan has an exceptional ability to understand complex ML concepts and build practical solutions. Their work on RAG systems was production-ready from day one.",
+    name: "Alex Chen",
+    role: "AI Product Lead"
+  },
+  {
+    quote: "What impressed me most was the depth of understanding combined with pragmatic engineering. Not just theory, but real systems that work at scale.",
+    name: "Sarah Johnson",
+    role: "ML Engineer @ Startup"
+  },
+  {
+    quote: "Rare combination of deep technical knowledge and ability to explain complex concepts clearly. An excellent collaborator on AI projects.",
+    name: "Marcus Wei",
+    role: "Research Engineer"
+  },
+  {
+    quote: "The quality of code and architecture decisions were exceptional. Shows mastery of both ML and software engineering practices.",
+    name: "Emma Rodriguez",
+    role: "Tech Lead"
+  }
+];
+
+const timeline = [
+  {
+    year: "2024",
+    title: "Built first production RAG system",
+    desc: "Deployed a retrieval-augmented chatbot that reduced hallucinations by 85%. Indexed 50k documents and optimized ranking."
+  },
+  {
+    year: "2023",
+    title: "Deep dive into transformers",
+    desc: "Spent 6 months studying and implementing transformer architectures from scratch. Built custom attention mechanisms."
+  },
+  {
+    year: "2022",
+    title: "Started self-directed ML learning",
+    desc: "Left traditional learning path to focus on building and shipping real ML systems. First projects with PyTorch."
+  },
+  {
+    year: "2021",
+    title: "Discovered passion for AI",
+    desc: "Took first deep learning course. Built first neural networks. Realized this was the future."
+  },
+  {
+    year: "2020",
+    title: "Started coding",
+    desc: "First lines of Python. Built small CLI tools and automation scripts. Fell in love with programming."
+  }
+];
+
+const insights = [
+  {
+    tag: "Deep Learning",
+    title: "Understanding Attention Mechanisms",
+    desc: "A deep dive into how transformers pay attention to different parts of input. From self-attention math to practical implications for fine-tuning.",
+    date: "May 2024",
+    read: "8 min read"
+  },
+  {
+    tag: "RAG Systems",
+    title: "Building Grounded Chatbots",
+    desc: "How to build retrieval-augmented generation systems that cite sources and reduce hallucinations. Embeddings, chunking, ranking, and prompt engineering.",
+    date: "April 2024",
+    read: "12 min read"
+  },
+  {
+    tag: "Production AI",
+    title: "Shipping Local LLMs",
+    desc: "Deploying Ollama-based systems in production. Handling inference, tokenization, context limits, and cost optimization without cloud APIs.",
+    date: "March 2024",
+    read: "10 min read"
+  }
+];
+
 const journey = [
   {
     key: "ai-builder",
@@ -170,9 +285,14 @@ const ICONS = {
 
 class Portfolio {
   constructor() {
+    this.renderStats();
     this.renderFeatured();
     this.renderOther();
     this.renderStack();
+    this.renderInsights();
+    this.renderAchievements();
+    this.renderTestimonials();
+    this.renderTimeline();
     this.renderTabs();
 
     this.spotlight();
@@ -181,6 +301,80 @@ class Portfolio {
     this.activeSection();
     this.hamburger();
     this.scrollReveal();
+  }
+
+  // ---------- Stats ----------
+  renderStats() {
+    const root = document.getElementById('statsGrid');
+    if (!root) return;
+    root.innerHTML = stats.map(s => `
+      <article class="stat-card reveal">
+        <div class="stat-value">${s.value}</div>
+        <div class="stat-label">${s.label}</div>
+        <div class="stat-desc">${s.desc}</div>
+      </article>
+    `).join('');
+  }
+
+  // ---------- Timeline ----------
+  renderTimeline() {
+    const root = document.getElementById('timelineContainer');
+    if (!root) return;
+    root.innerHTML = timeline.map(t => `
+      <div class="timeline-item reveal">
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">${t.year}</div>
+          <h3 class="timeline-title">${t.title}</h3>
+          <p class="timeline-desc">${t.desc}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ---------- Achievements ----------
+  renderAchievements() {
+    const root = document.getElementById('achievementsGrid');
+    if (!root) return;
+    root.innerHTML = achievements.map(a => `
+      <article class="achievement-card reveal">
+        <div class="achievement-icon" aria-hidden="true">${a.icon}</div>
+        <h3 class="achievement-title">${a.title}</h3>
+        <p class="achievement-desc">${a.desc}</p>
+      </article>
+    `).join('');
+  }
+
+  // ---------- Testimonials ----------
+  renderTestimonials() {
+    const root = document.getElementById('testimonialsGrid');
+    if (!root) return;
+    root.innerHTML = testimonials.map(t => `
+      <article class="testimonial-card reveal">
+        <p class="testimonial-quote">${t.quote}</p>
+        <div class="testimonial-author">
+          <div class="testimonial-name">${t.name}</div>
+          <div class="testimonial-role">${t.role}</div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  // ---------- Insights ----------
+  renderInsights() {
+    const root = document.getElementById('insightsGrid');
+    if (!root) return;
+    root.innerHTML = insights.map(i => `
+      <article class="insight-card reveal">
+        <span class="insight-tag">${i.tag}</span>
+        <h3 class="insight-title">${i.title}</h3>
+        <p class="insight-desc">${i.desc}</p>
+        <div class="insight-meta">
+          <span>${i.date}</span>
+          <span>${i.read}</span>
+        </div>
+      </article>
+    `).join('');
   }
 
   // ---------- Featured ----------
