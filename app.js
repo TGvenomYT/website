@@ -615,9 +615,23 @@ class Portfolio {
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
+    // Animate cards
     document.querySelectorAll('.reveal').forEach((el, i) => {
       el.style.transitionDelay = `${Math.min(i * 60, 400)}ms`;
       io.observe(el);
+    });
+
+    // Animate section titles
+    const titleIO = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        titleIO.unobserve(entry.target);
+      });
+    }, { threshold: 0.5, rootMargin: '0px 0px -100px 0px' });
+
+    document.querySelectorAll('.section-title').forEach(el => {
+      titleIO.observe(el);
     });
   }
 }
