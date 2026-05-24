@@ -75,23 +75,37 @@ body {
   min-height: 100vh;
 }
 
-/* Animated gradient mesh background */
+/* Dynamic kinetic gradient background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(ellipse 1200px 600px at 20% 50%, rgba(167, 139, 250, 0.08), transparent 50%),
-    radial-gradient(ellipse 900px 800px at 80% 20%, rgba(125, 211, 252, 0.06), transparent 50%),
-    radial-gradient(ellipse 1000px 700px at 50% 90%, rgba(251, 146, 60, 0.04), transparent 50%);
+    radial-gradient(ellipse 1200px 600px at 20% 50%, rgba(167, 139, 250, 0.06), transparent 50%),
+    radial-gradient(ellipse 900px 800px at 80% 20%, rgba(125, 211, 252, 0.05), transparent 50%),
+    radial-gradient(ellipse 1000px 700px at 50% 90%, rgba(251, 146, 60, 0.03), transparent 50%);
   pointer-events: none;
-  animation: gradientShift 15s ease-in-out infinite;
+  animation: kineticGradient 20s ease-in-out infinite;
+  background-attachment: fixed;
 }
 
-@keyframes gradientShift {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
+@keyframes kineticGradient {
+  0% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+  }
+  25% {
+    background-position: 50% 30%, 50% 70%, 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%, 0% 30%, 100% 0%;
+  }
+  75% {
+    background-position: 50% 70%, 50% 30%, 100% 100%;
+  }
+  100% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+  }
 }
 
 /* Grid texture overlay */
@@ -107,62 +121,86 @@ body::after {
   pointer-events: none;
 }
 
-/* Floating animated orbs */
-.orb {
+/* Animated morphing blobs */
+.blob-container {
   position: fixed;
-  border-radius: 50%;
-  opacity: 0.08;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  filter: blur(80px);
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
 }
 
-.orb-1 {
-  width: 400px;
-  height: 400px;
-  top: 10%;
-  left: 5%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent);
-  animation: floatOrb1 20s ease-in-out infinite;
+.blob {
+  animation: blobMorph 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.3));
 }
 
-.orb-2 {
-  width: 350px;
-  height: 350px;
-  bottom: 15%;
-  right: 10%;
-  background: radial-gradient(circle, rgba(125, 211, 252, 0.3), transparent);
-  animation: floatOrb2 24s ease-in-out infinite;
+.blob-1 {
+  animation: blobMorph1 12s ease-in-out infinite;
 }
 
-.orb-3 {
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  right: 5%;
-  background: radial-gradient(circle, rgba(251, 146, 60, 0.2), transparent);
-  animation: floatOrb3 28s ease-in-out infinite;
+.blob-2 {
+  animation: blobMorph2 15s ease-in-out infinite;
 }
 
-@keyframes floatOrb1 {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(40px, -50px); }
-  50% { transform: translate(20px, 40px); }
-  75% { transform: translate(-30px, -30px); }
+.blob-3 {
+  animation: blobMorph3 18s ease-in-out infinite;
 }
 
-@keyframes floatOrb2 {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(-50px, 30px); }
-  50% { transform: translate(40px, -20px); }
-  75% { transform: translate(-20px, 50px); }
+@keyframes blobMorph1 {
+  0% {
+    d: path("M300,400 Q250,300 350,250 Q450,200 500,300 Q550,400 450,500 Q350,600 300,400");
+  }
+  25% {
+    d: path("M320,380 Q270,280 370,240 Q480,190 520,310 Q570,420 460,520 Q340,620 320,380");
+  }
+  50% {
+    d: path("M280,420 Q230,320 330,270 Q420,210 480,290 Q530,380 440,480 Q360,580 280,420");
+  }
+  75% {
+    d: path("M310,400 Q260,310 360,260 Q460,200 510,320 Q560,410 450,510 Q350,600 310,400");
+  }
+  100% {
+    d: path("M300,400 Q250,300 350,250 Q450,200 500,300 Q550,400 450,500 Q350,600 300,400");
+  }
 }
 
-@keyframes floatOrb3 {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(30px, 40px); }
-  50% { transform: translate(-40px, 20px); }
-  75% { transform: translate(50px, -30px); }
+@keyframes blobMorph2 {
+  0% {
+    d: path("M800,200 Q750,100 850,80 Q950,60 1000,150 Q1050,250 950,300 Q850,350 800,200");
+  }
+  25% {
+    d: path("M820,190 Q770,90 870,70 Q970,50 1020,140 Q1070,240 960,310 Q860,360 820,190");
+  }
+  50% {
+    d: path("M780,210 Q730,110 830,90 Q930,70 980,160 Q1030,260 940,290 Q840,340 780,210");
+  }
+  75% {
+    d: path("M810,200 Q760,100 860,80 Q960,60 1010,150 Q1060,250 950,310 Q850,350 810,200");
+  }
+  100% {
+    d: path("M800,200 Q750,100 850,80 Q950,60 1000,150 Q1050,250 950,300 Q850,350 800,200");
+  }
+}
+
+@keyframes blobMorph3 {
+  0% {
+    d: path("M600,600 Q550,500 700,480 Q850,460 900,600 Q950,750 750,800 Q600,800 600,600");
+  }
+  25% {
+    d: path("M620,590 Q570,490 720,470 Q870,450 920,590 Q970,740 760,810 Q620,810 620,590");
+  }
+  50% {
+    d: path("M580,610 Q530,510 680,490 Q830,470 880,610 Q930,760 740,790 Q580,790 580,610");
+  }
+  75% {
+    d: path("M610,600 Q560,500 710,480 Q860,460 910,600 Q960,750 755,800 Q610,800 610,600");
+  }
+  100% {
+    d: path("M600,600 Q550,500 700,480 Q850,460 900,600 Q950,750 750,800 Q600,800 600,600");
+  }
 }
 
 ::selection { background: rgba(167, 139, 250, 0.32); color: #fff; }
