@@ -209,6 +209,238 @@ const ICONS = {
 
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// =====================================================
+// SOUND — tiny Web Audio synth (no asset files).
+// All cues are procedural and fire only from a user
+// gesture (breaking the seal / hitting Share).
+// =====================================================
+const SFX = {
+  ctx: null,
+  master: null,
+  ok: true,
+
+  ensure() {
+    if (REDUCED_MOTION || !this.ok) return null;
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { this.ok = false; return null; }
+      this.ctx = new AC();
+      this.master = this.ctx.createGain();
+      this.master.gain.value = 0.7;
+      // a limiter glues the layers and stops transients from clipping
+      const limiter = this.ctx.createDynamicsCompressor();
+      limiter.threshold.value = -3;
+      limiter.knee.value = 0;
+      limiter.ratio.value = 20;
+      limiter.attack.value = 0.003;
+      limiter.release.value = 0.12;
+      this.master.connect(limiter);
+      limiter.connect(this.ctx.destination);
+    }
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    return this.ctx;
+  },
+
+  // white-noise source of a given length
+  _noise(dur) {
+    const len = Math.max(1, Math.floor(this.ctx.sampleRate * dur));
+    const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    return src;
+  },
+
+  // crackle field — many tiny decaying grains. This is what makes
+  // paper, splintering wax and the like sound real rather than "swept".
+  _crackle(dur, density = 0.0022, decay = 0.9) {
+    const sr = this.ctx.sampleRate;
+    const len = Math.max(1, Math.floor(sr * dur));
+    const buf = this.ctx.createBuffer(1, len, sr);
+    const d = buf.getChannelData(0);
+    let env = 0;
+    for (let i = 0; i < len; i++) {
+      if (Math.random() < density) env = Math.random() * 0.9 + 0.1; // new grain
+      d[i] = (Math.random() * 2 - 1) * env;
+      env *= decay;                                                  // grain decays fast
+    }
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    return src;
+  },
+
+  // paper rustle / fold — two crackle layers through bandpass filters
+  paper(dur = 0.42, vol = 0.55) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const layers = [
+      { d: 0.0028, dec: 0.87, f: 2300, q: 0.5, a: 1.0 },
+      { d: 0.0012, dec: 0.93, f: 4400, q: 0.7, a: 0.55 }
+    ];
+    layers.forEach(L => {
+      const src = this._crackle(dur, L.d, L.dec);
+      const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = L.f; bp.Q.value = L.q;
+      const g = ctx.createGain();
+      const peak = vol * L.a;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(peak, t + dur * 0.22);
+      g.gain.linearRampToValueAtTime(peak * 0.65, t + dur * 0.6);
+      g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      src.connect(bp); bp.connect(g); g.connect(this.master);
+      src.start(t); src.stop(t + dur);
+    });
+  },
+
+  // wax crack — a sharp click, a splintering crackle, and a low snap
+  crack(vol = 0.9) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const click = this._noise(0.014);
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1400;
+    const gc = ctx.createGain();
+    gc.gain.setValueAtTime(vol, t);
+    gc.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    click.connect(hp); hp.connect(gc); gc.connect(this.master);
+    click.start(t); click.stop(t + 0.05);
+
+    const cr = this._crackle(0.18, 0.005, 0.86);
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 2500; bp.Q.value = 0.8;
+    const gt = ctx.createGain();
+    gt.gain.setValueAtTime(vol * 0.7, t);
+    gt.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+    cr.connect(bp); bp.connect(gt); gt.connect(this.master);
+    cr.start(t); cr.stop(t + 0.18);
+
+    const o = ctx.createOscillator(); o.type = 'triangle';
+    o.frequency.setValueAtTime(180, t);
+    o.frequency.exponentialRampToValueAtTime(58, t + 0.16);
+    const gb = ctx.createGain();
+    gb.gain.setValueAtTime(vol * 0.55, t);
+    gb.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+    o.connect(gb); gb.connect(this.master);
+    o.start(t); o.stop(t + 0.18);
+  },
+
+  // airy whoosh — bandpass sweep up and back down, rolled off on top
+  whoosh(dur = 0.55, vol = 0.5) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const src = this._noise(dur);
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.7;
+    bp.frequency.setValueAtTime(440, t);
+    bp.frequency.exponentialRampToValueAtTime(2400, t + dur * 0.6);
+    bp.frequency.exponentialRampToValueAtTime(820, t + dur);
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3800;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + dur * 0.45);
+    g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(this.master);
+    src.start(t); src.stop(t + dur);
+  },
+
+  // seal stamp — a low press with a small wax-on-paper crinkle on top
+  thud(vol = 0.85) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(140, t);
+    o.frequency.exponentialRampToValueAtTime(48, t + 0.18);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.24);
+    o.connect(g); g.connect(this.master);
+    o.start(t); o.stop(t + 0.26);
+
+    const cr = this._crackle(0.09, 0.004, 0.85);
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 2200; bp.Q.value = 0.6;
+    const g2 = ctx.createGain();
+    g2.gain.setValueAtTime(vol * 0.5, t);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+    cr.connect(bp); bp.connect(g2); g2.connect(this.master);
+    cr.start(t); cr.stop(t + 0.09);
+  },
+
+  // metallic clank — noise attack plus inharmonic partials that ring
+  clank(vol = 0.6) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const n = this._noise(0.025);
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 2500;
+    const gn = ctx.createGain();
+    gn.gain.setValueAtTime(vol * 0.5, t);
+    gn.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
+    n.connect(hp); hp.connect(gn); gn.connect(this.master);
+    n.start(t); n.stop(t + 0.03);
+
+    const base = 430;
+    const parts = [
+      { r: 1.00, d: 0.42, a: 0.5 },
+      { r: 1.59, d: 0.34, a: 0.32 },
+      { r: 2.14, d: 0.28, a: 0.24 },
+      { r: 2.92, d: 0.20, a: 0.18 },
+      { r: 3.76, d: 0.15, a: 0.12 }
+    ];
+    parts.forEach(p => {
+      const o = ctx.createOscillator(); o.type = 'sine';
+      o.frequency.value = base * p.r * (1 + (Math.random() - 0.5) * 0.01);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(vol * p.a, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + p.d);
+      o.connect(g); g.connect(this.master);
+      o.start(t); o.stop(t + p.d + 0.02);
+    });
+  },
+
+  // boing — the red flag springing up, with a real decaying wobble
+  spring(vol = 0.45) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const dur = 0.42;
+    const o = ctx.createOscillator(); o.type = 'triangle';
+    const N = 48;
+    const arr = new Float32Array(N);
+    const f0 = 520, drop = 180;
+    for (let i = 0; i < N; i++) {
+      const x = i / (N - 1);
+      const wob = Math.sin(x * Math.PI * 2 * 5) * 120 * Math.exp(-x * 6);
+      arr[i] = (f0 - drop * x) + wob;
+    }
+    o.frequency.setValueCurveAtTime(arr, t, dur);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(this.master);
+    o.start(t); o.stop(t + dur);
+  },
+
+  // bell chime — two soft notes, each with inharmonic overtones
+  chime(vol = 0.4) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t0 = ctx.currentTime;
+    const notes = [880, 1174.7];
+    const parts = [
+      { r: 1.00, d: 1.1, a: 0.5 },
+      { r: 2.01, d: 0.7, a: 0.26 },
+      { r: 3.02, d: 0.45, a: 0.16 },
+      { r: 4.18, d: 0.3, a: 0.1 }
+    ];
+    notes.forEach((f0, n) => {
+      const start = t0 + n * 0.1;
+      parts.forEach(p => {
+        const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f0 * p.r;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.exponentialRampToValueAtTime(vol * p.a, start + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + p.d);
+        o.connect(g); g.connect(this.master);
+        o.start(start); o.stop(start + p.d + 0.02);
+      });
+    });
+  }
+};
+
 function slug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
@@ -260,6 +492,7 @@ class Portfolio {
     const app = document.getElementById('app');
     const seal = document.getElementById('seal');
     const letter = document.getElementById('letter');
+    const envPaper = scene.querySelector('.env-paper');
     const skip = document.getElementById('envSkip');
     let finished = false;
     let opened = false;
@@ -290,24 +523,45 @@ class Portfolio {
       if (opened || finished) return;
       opened = true;
 
-      scene.classList.add('is-breaking');                            // wax cracks in two
-      setTimeout(() => scene.classList.add('is-opening'), 430);      // flap lifts
-      setTimeout(() => scene.classList.add('is-rising'), 1000);      // letter rises out
-      setTimeout(() => scene.classList.add('is-unfolding'), 1650);   // letter unfolds
-      setTimeout(() => {                                             // letter becomes the app
-        const r = letter.getBoundingClientRect();
-        const scale = Math.max(
-          (window.innerWidth * 1.06) / r.width,
-          (window.innerHeight * 1.08) / r.height
-        );
-        const dx = window.innerWidth / 2 - (r.left + r.width / 2);
-        const dy = window.innerHeight / 2 - (r.top + r.height / 2);
-        letter.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      // The morph: the open envelope's paper grows into the old-paper
+      // desk while the letter scales into the inset white app window.
+      const expand = () => {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const inset = Math.max(10, Math.min(30, vw * 0.022));
+
+        // Letter -> white app window, sitting inset on the desk
+        const lr = letter.getBoundingClientRect();
+        const lsx = (vw - inset * 2) / lr.width;
+        const lsy = (vh - inset * 2) / lr.height;
+        const ldx = vw / 2 - (lr.left + lr.width / 2);
+        const ldy = vh / 2 - (lr.top + lr.height / 2);
+        letter.style.transform =
+          `translate(${ldx}px, ${ldy}px) scale(${lsx}, ${lsy})`;
+
+        // Envelope paper -> full-bleed desk behind the window
+        if (envPaper) {
+          const pr = envPaper.getBoundingClientRect();
+          const ps = Math.max((vw + 6) / pr.width, (vh + 6) / pr.height);
+          const pdx = vw / 2 - (pr.left + pr.width / 2);
+          const pdy = vh / 2 - (pr.top + pr.height / 2);
+          envPaper.style.transform =
+            `translate(${pdx}px, ${pdy}px) scale(${ps})`;
+        }
+
         scene.classList.add('is-expanding');
         this.replayEntrance();
-      }, 2450);
-      setTimeout(() => scene.classList.add('is-done'), 3080);        // crossfade to the site
-      setTimeout(finish, 3450);
+      };
+
+      scene.classList.add('is-breaking');                          // wax cracks & falls
+      SFX.ensure();
+      SFX.crack();
+      setTimeout(() => { scene.classList.add('is-opening'); SFX.paper(0.5); }, 560);
+      setTimeout(() => { scene.classList.add('is-rising'); SFX.paper(0.5, 0.48); }, 1180);
+      setTimeout(() => { scene.classList.add('is-unfolding'); SFX.paper(0.42, 0.42); }, 1820);
+      setTimeout(() => { expand(); SFX.whoosh(0.62); }, 2620);
+      setTimeout(() => { scene.classList.add('is-done'); SFX.chime(); }, 3420);
+      setTimeout(finish, 3820);
     });
 
     seal?.focus({ preventScroll: true });
@@ -488,10 +742,73 @@ class Portfolio {
     }, { passive: true });
   }
 
-  // ---------- Share = copy page link ----------
+  // ---------- Share = copy page link, then post it off ----------
   share() {
-    document.getElementById('shareBtn')?.addEventListener('click', () =>
-      this.copyText(location.href, 'Page link copied to clipboard ✓'));
+    document.getElementById('shareBtn')?.addEventListener('click', () => {
+      // copy inside the user gesture so the clipboard call is allowed
+      this.copyText(location.href, 'Link copied — your card is in the mail ✉️');
+      if (REDUCED_MOTION) return;
+      SFX.ensure();
+      this.mailItOff();
+    });
+  }
+
+  // ---------- The "post it" animation ----------
+  mailItOff() {
+    const scene = document.getElementById('sendScene');
+    if (!scene || scene.classList.contains('busy')) return;
+    const env = scene.querySelector('.envelope');
+    const slot = scene.querySelector('.mb-mouth');
+    const cap = document.getElementById('sendCaption');
+    if (!env || !slot) return;
+
+    // reset to a clean, hidden start state
+    scene.className = 'send-scene';
+    env.style.animation = 'none';
+    env.style.removeProperty('--tx');
+    env.style.removeProperty('--ty');
+    void scene.offsetWidth;
+
+    if (cap) cap.textContent = 'Folding it back up…';
+    scene.classList.add('active', 'busy');
+    void scene.offsetWidth;                              // let display:flex settle
+    scene.classList.add('is-visible');
+
+    const t = [];
+    t.push(setTimeout(() => { scene.classList.add('is-folding'); SFX.paper(0.46); }, 420));
+    t.push(setTimeout(() => {
+      scene.classList.add('is-closing');
+      SFX.paper(0.4, 0.46);
+      if (cap) cap.textContent = 'Sealing it shut…';
+    }, 1120));
+    t.push(setTimeout(() => { scene.classList.add('is-sealing'); SFX.thud(); }, 1620));
+    t.push(setTimeout(() => {                            // aim for the mouth, then toss
+      const er = env.getBoundingClientRect();
+      const sr = slot.getBoundingClientRect();
+      env.style.setProperty('--tx', `${(sr.left + sr.width / 2) - (er.left + er.width / 2)}px`);
+      env.style.setProperty('--ty', `${(sr.top + sr.height / 2) - (er.top + er.height / 2)}px`);
+      env.style.animation = '';                          // hand control back to the CSS keyframe
+      scene.classList.add('is-tossing');
+      SFX.whoosh(0.5);
+      if (cap) cap.textContent = 'Posting…';
+    }, 2160));
+    t.push(setTimeout(() => {
+      scene.classList.add('is-posted');
+      SFX.clank();
+      setTimeout(() => SFX.spring(), 150);
+      setTimeout(() => SFX.chime(), 300);
+      if (cap) cap.textContent = 'Sent! Link copied ✉️';
+    }, 2820));
+    t.push(setTimeout(() => {
+      scene.classList.remove('is-visible');
+      scene.classList.add('is-gone');
+    }, 3560));
+    t.push(setTimeout(() => {                            // fully reset for next time
+      scene.className = 'send-scene';
+      env.style.animation = 'none';
+      env.style.removeProperty('--tx');
+      env.style.removeProperty('--ty');
+    }, 3960));
   }
 
   // ---------- Quick find (⌘K) — real search over sections & projects ----------
