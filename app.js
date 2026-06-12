@@ -1,283 +1,217 @@
 /* =====================================================
-   NIRANJAN · Portfolio
+   NIRANJAN · Data Scientist & AI Builder
+   Notion-style UI on old paper.
    ===================================================== */
 
 // ----- DATA -----
 
-const stats = [
-  { value: "15+", label: "Projects shipped", desc: "RAG, Vision, Automation" },
-  { value: "100%", label: "Self-taught", desc: "Learning by building" },
-  { value: "4+", label: "Years coding", desc: "Python, ML, DevOps" },
-  { value: "Open", label: "To opportunities", desc: "Remote or relocation" }
-];
+const GITHUB_USER = 'TGvenomYT';
 
 const featuredProjects = [
   {
-    eyebrow: "Featured project",
-    title: "Conversational AI with RAG",
+    emoji: '🧠',
+    eyebrow: 'Featured · AI + ML product',
+    title: 'CAREN — AI Email Command Center',
+    repo: 'https://github.com/TGvenomYT/CAREN-agent',
     description:
-      "A context-aware chatbot that grounds answers in a private knowledge base. Built a sentence-transformer embedding pipeline, indexed documents in ChromaDB, and wired retrieval into prompt assembly — so the LLM stops hallucinating and starts citing.",
-    tech: ["Python", "PyTorch", "Transformers", "ChromaDB", "LangChain"],
-    glyph: "◆",
-    links: [
-      { label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" },
-      { label: "Live demo", href: "https://github.com/TGvenomYT", icon: "external" }
-    ]
+      'A full-stack AI dashboard that runs your inbox: local LLM summarization via <strong>Ollama</strong>, a <strong>scikit-learn logistic-regression spam classifier</strong>, AI-composed outbound emails, and a real-time voice interface (Moonshine STT + Kokoro TTS) — all wrapped in a React UI.',
+    tech: ['Python', 'FastAPI', 'scikit-learn', 'Ollama', 'LangChain', 'React', 'FastRTC'],
+    live: {
+      url: 'https://tgvenomyt.github.io/CAREN-agent/',
+      img: 'assets/preview-caren.jpg',
+      title: 'CAREN — live demo',
+      desc: 'The command center in your browser, gated behind an access key like a real product.'
+    },
+    term: {
+      title: 'caren — api',
+      lines: [
+        { t: 'cmd',  x: 'uvicorn caren.api:app --port 7860' },
+        { t: 'ok',   x: '✓ ollama connected — local llm online' },
+        { t: 'ok',   x: '✓ spam classifier loaded · logistic regression' },
+        { t: 'dim',  x: '▸ voice bridge: moonshine stt ⇄ kokoro tts' },
+        { t: 'live', x: 'neural hub live — listening' }
+      ]
+    }
   },
   {
-    eyebrow: "Featured project",
-    title: "Vision Transformer Classifier",
+    emoji: '☎️',
+    eyebrow: 'Featured · Real-time voice AI',
+    title: 'AI Phone Agent on Exotel',
+    repo: 'https://github.com/TGvenomYT/Exotel-with-Pipecat',
     description:
-      "Fine-tuned a pretrained ViT on a custom dataset for multi-class image classification. Implemented mixed-precision training, augmentation pipelines, and evaluation on held-out data — getting clean confusion-matrix performance without overfitting.",
-    tech: ["Python", "PyTorch", "Hugging Face", "ViT"],
-    glyph: "◇",
-    links: [
-      { label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }
-    ]
+      'An outbound calling bot that talks to real people over a real phone line. FastAPI orchestrates <strong>Exotel telephony</strong> with a <strong>Pipecat pipeline</strong> — Deepgram speech-to-text, an OpenAI LLM for reasoning, Cartesia text-to-speech — with audio bridged live over WebSockets.',
+    tech: ['Python', 'Pipecat', 'FastAPI', 'Deepgram', 'OpenAI', 'Cartesia', 'WebSockets'],
+    term: {
+      title: 'exotel — outbound',
+      lines: [
+        { t: 'cmd',  x: 'curl -X POST /start -d \'{"to": "+91•••"}\'' },
+        { t: 'ok',   x: '✓ exotel connect api — bot line answered' },
+        { t: 'dim',  x: '⇄ websocket audio bridge established' },
+        { t: 'out',  x: 'deepgram → llm → cartesia' },
+        { t: 'live', x: 'call connected — streaming audio' }
+      ]
+    }
   },
   {
-    eyebrow: "Featured project",
-    title: "Self-Hosted LLM Automation",
+    emoji: '🏫',
+    eyebrow: 'Featured · Production client work',
+    title: 'KVMTCC — Live Client Website',
+    repo: 'https://github.com/TGvenomYT/KVM-Website',
     description:
-      "End-to-end content workflow powered by local Ollama models. Built n8n nodes that pull data, send it through a quantized LLM for summarization and rewriting, and ship structured output — all on-prem, no cloud API spend.",
-    tech: ["n8n", "Ollama", "Python", "REST APIs"],
-    glyph: "◈",
-    links: [
-      { label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }
-    ]
+      'A production marketing site for a real tuition centre serving Class 8–12 students. <strong>Next.js 15</strong> static export with a <strong>Google-Sheets-backed CMS</strong>, so non-technical admins update the live site without touching code — deployed automatically via GitHub Actions.',
+    tech: ['Next.js 15', 'React 19', 'Tailwind CSS', 'Framer Motion', 'Google Sheets CMS', 'GitHub Actions'],
+    live: {
+      url: 'https://tgvenomyt.github.io/KVM-Website/',
+      img: 'assets/preview-kvm.jpg',
+      title: 'KVMTCC — Shaping Future Minds',
+      desc: 'The production site, live today for a real tuition centre and its students.'
+    },
+    term: {
+      title: 'kvmtcc — deploy',
+      lines: [
+        { t: 'cmd',  x: 'next build' },
+        { t: 'ok',   x: '✓ static export complete — 0 errors' },
+        { t: 'dim',  x: '⟳ google sheets cms → content synced' },
+        { t: 'ok',   x: '✓ ci/cd — github actions → pages' },
+        { t: 'live', x: 'in production for a real client' }
+      ]
+    }
   }
 ];
 
 const otherProjects = [
   {
-    icon: "📊",
-    title: "ML Data Pipeline",
+    emoji: '📨',
+    color: 'blue',
+    title: 'Mailing Agent',
+    repo: 'https://github.com/TGvenomYT/Mailing_Agent',
     description:
-      "ETL pipeline that collects, normalizes, and prepares training data for ML models — with schema validation, dedup, and pandas-based feature engineering.",
-    tech: ["Python", "SQL", "Pandas"],
-    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+      'Python email automation suite: send mail with attachments, summarize unread Gmail with an LLM, flag spam with an ML classifier, and auto-draft email bodies.',
+    tech: ['scikit-learn', 'SMTP/IMAP', 'LLM'],
+    lang: 'Python'
   },
   {
-    icon: "🧠",
-    title: "LLM Playground",
+    emoji: '🎙️',
+    color: 'purple',
+    title: 'Gemini Speech Assistant',
+    repo: 'https://github.com/TGvenomYT/Gemini-chatbot',
     description:
-      "Unified front-end over multiple Ollama models. Switch models, stream tokens, and benchmark latency vs quality on consumer hardware.",
-    tech: ["Ollama", "Python", "FastAPI"],
-    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+      'A voice assistant that hears you, thinks with Gemini 2.5 Flash, and talks back — speech recognition in, gTTS out. Works across Windows, Linux and macOS.',
+    tech: ['Gemini API', 'SpeechRecognition', 'gTTS'],
+    lang: 'Python'
   },
   {
-    icon: "🪄",
-    title: "Tool-Using LLM Agent",
+    emoji: '🤖',
+    color: 'red',
+    title: 'DeepSeek Jarvis',
+    repo: 'https://github.com/TGvenomYT/Deepseek-Jarvis',
     description:
-      "Experimental ReAct-style agent that decides when to call tools — search, calculator, file I/O — using a local LLM for full privacy.",
-    tech: ["Python", "Ollama", "ReAct"],
-    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+      'A Jarvis-style personal assistant powered by the DeepSeek API, with conversational voice interaction and 130+ selectable TTS voices.',
+    tech: ['DeepSeek API', 'TTS', 'Voice'],
+    lang: 'Python'
   },
   {
-    icon: "🔍",
-    title: "Embedding Visualizer",
+    emoji: '📚',
+    color: 'yellow',
+    title: 'Wikipedia Search Assistant',
+    repo: 'https://github.com/TGvenomYT/Wikipedia-Search-Assistant',
     description:
-      "Projects sentence embeddings into 2D using UMAP and renders them interactively — making it easier to debug semantic search quality.",
-    tech: ["Python", "UMAP", "Matplotlib"],
-    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+      'Desktop GUI for Wikipedia: instant search, quick summaries, and distraction-free full-article reading without opening a browser.',
+    tech: ['Tkinter', 'Wikipedia API'],
+    lang: 'Python'
   },
   {
-    icon: "⚡",
-    title: "Fast Inference API",
+    emoji: '🔐',
+    color: 'green',
+    title: 'Password Manager MARK IV',
+    repo: 'https://github.com/TGvenomYT/password-manager',
     description:
-      "FastAPI wrapper around local LLMs with streaming responses, request queuing, and basic rate limiting — production-grade ergonomics.",
-    tech: ["FastAPI", "Python", "Async"],
-    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+      'Local-first password vault with Fernet encryption and MySQL storage. Dual CLI + GUI interfaces, with the encryption key generated on first run.',
+    tech: ['MySQL', 'Cryptography', 'GUI'],
+    lang: 'Python'
   },
   {
-    icon: "🐍",
-    title: "Python Learning Notes",
+    emoji: '📄',
+    color: 'orange',
+    title: 'This Portfolio',
+    repo: 'https://github.com/TGvenomYT/website',
     description:
-      "Open-source notes and worked examples from my deep dive into ML fundamentals — tensors, autograd, transformer internals, attention mechanisms.",
-    tech: ["Python", "PyTorch", "Notebooks"],
-    links: [{ label: "GitHub", href: "https://github.com/TGvenomYT", icon: "github" }]
+      'The page you are reading — vanilla HTML, CSS and JavaScript styled after Notion, resting on an old-paper desk. Live GitHub stats, zero frameworks.',
+    tech: ['Vanilla JS', 'GitHub API'],
+    lang: 'JavaScript'
   }
 ];
 
-const stackItems = [
-  { icon: "🐍", name: "Python",       desc: "Primary language" },
-  { icon: "🔥", name: "PyTorch",      desc: "Deep learning" },
-  { icon: "🤗", name: "Transformers", desc: "Hugging Face" },
-  { icon: "💎", name: "ChromaDB",     desc: "Vector store" },
-  { icon: "🦙", name: "Ollama",       desc: "Local LLMs" },
-  { icon: "🦜", name: "LangChain",    desc: "LLM orchestration" },
-  { icon: "⚙️", name: "n8n",          desc: "Workflow automation" },
-  { icon: "⚡", name: "FastAPI",      desc: "Python APIs" },
-  { icon: "🐼", name: "Pandas",       desc: "Data wrangling" },
-  { icon: "🐘", name: "PostgreSQL",   desc: "Relational DB" },
-  { icon: "🔧", name: "Git",          desc: "Version control" },
-  { icon: "🐧", name: "Linux",        desc: "Platform" }
-];
-
-const achievements = [
+const skillGroups = [
   {
-    icon: "🏆",
-    title: "Self-Taught Engineer",
-    desc: "Built production AI systems without formal ML degree. Learned by shipping real projects."
+    emoji: '📊',
+    name: 'Data science',
+    chips: ['Python', 'Pandas', 'NumPy', 'scikit-learn', 'Matplotlib', 'MySQL / SQL', 'Jupyter', 'EDA & feature engineering', 'Model evaluation']
   },
   {
-    icon: "📚",
-    title: "Deep Learning Mastery",
-    desc: "In-depth understanding of transformers, attention mechanisms, and modern LLM architecture."
+    emoji: '🤖',
+    name: 'AI engineering',
+    chips: ['LangChain', 'Ollama · local LLMs', 'OpenAI · Gemini · DeepSeek', 'Pipecat voice pipelines', 'STT / TTS (Deepgram, Kokoro, gTTS)', 'RAG & embeddings', 'Prompt engineering']
   },
   {
-    icon: "🚀",
-    title: "Full-Stack AI Systems",
-    desc: "End-to-end expertise from model training to production deployment and optimization."
-  },
-  {
-    icon: "🔐",
-    title: "Privacy-First AI",
-    desc: "Specialist in local LLMs and on-prem solutions. No cloud dependency, full control."
-  },
-  {
-    icon: "💡",
-    title: "RAG Architect",
-    desc: "Designed and implemented sophisticated retrieval-augmented generation pipelines at scale."
-  },
-  {
-    icon: "⚡",
-    title: "Performance Optimized",
-    desc: "Expertise in inference optimization, quantization, and cost-effective model deployment."
-  }
-];
-
-const testimonials = [
-  {
-    quote: "Niranjan has an exceptional ability to understand complex ML concepts and build practical solutions. Their work on RAG systems was production-ready from day one.",
-    name: "Alex Chen",
-    role: "AI Product Lead"
-  },
-  {
-    quote: "What impressed me most was the depth of understanding combined with pragmatic engineering. Not just theory, but real systems that work at scale.",
-    name: "Sarah Johnson",
-    role: "ML Engineer @ Startup"
-  },
-  {
-    quote: "Rare combination of deep technical knowledge and ability to explain complex concepts clearly. An excellent collaborator on AI projects.",
-    name: "Marcus Wei",
-    role: "Research Engineer"
-  },
-  {
-    quote: "The quality of code and architecture decisions were exceptional. Shows mastery of both ML and software engineering practices.",
-    name: "Emma Rodriguez",
-    role: "Tech Lead"
-  }
-];
-
-const timeline = [
-  {
-    year: "2024",
-    title: "Built first production RAG system",
-    desc: "Deployed a retrieval-augmented chatbot that reduced hallucinations by 85%. Indexed 50k documents and optimized ranking."
-  },
-  {
-    year: "2023",
-    title: "Deep dive into transformers",
-    desc: "Spent 6 months studying and implementing transformer architectures from scratch. Built custom attention mechanisms."
-  },
-  {
-    year: "2022",
-    title: "Started self-directed ML learning",
-    desc: "Left traditional learning path to focus on building and shipping real ML systems. First projects with PyTorch."
-  },
-  {
-    year: "2021",
-    title: "Discovered passion for AI",
-    desc: "Took first deep learning course. Built first neural networks. Realized this was the future."
-  },
-  {
-    year: "2020",
-    title: "Started coding",
-    desc: "First lines of Python. Built small CLI tools and automation scripts. Fell in love with programming."
-  }
-];
-
-const insights = [
-  {
-    tag: "Deep Learning",
-    title: "Understanding Attention Mechanisms",
-    desc: "A deep dive into how transformers pay attention to different parts of input. From self-attention math to practical implications for fine-tuning.",
-    date: "May 2024",
-    read: "8 min read"
-  },
-  {
-    tag: "RAG Systems",
-    title: "Building Grounded Chatbots",
-    desc: "How to build retrieval-augmented generation systems that cite sources and reduce hallucinations. Embeddings, chunking, ranking, and prompt engineering.",
-    date: "April 2024",
-    read: "12 min read"
-  },
-  {
-    tag: "Production AI",
-    title: "Shipping Local LLMs",
-    desc: "Deploying Ollama-based systems in production. Handling inference, tokenization, context limits, and cost optimization without cloud APIs.",
-    date: "March 2024",
-    read: "10 min read"
+    emoji: '🚢',
+    name: 'Product & delivery',
+    chips: ['FastAPI', 'REST & WebSockets', 'React · Next.js', 'Tailwind CSS', 'Docker', 'Git & GitHub Actions', 'Linux', 'CI/CD → GitHub Pages']
   }
 ];
 
 const journey = [
   {
-    key: "ai-builder",
-    label: "AI Builder",
-    title: "AI/ML Engineer",
-    where: "Independent",
-    period: "2024 — Present",
-    points: [
-      "Building and shipping end-to-end AI systems — RAG-grounded chatbots, vision transformers, and agentic LLM tools.",
-      "Working with PyTorch, Hugging Face Transformers, ChromaDB, Ollama, and LangChain to turn ideas into production-ready applications.",
-      "Sharing notes, experiments, and source code publicly on GitHub as I learn."
-    ]
+    year: '2024',
+    title: 'Hello, world',
+    desc: 'Started building in public: Python fundamentals, automation scripts, and a Fernet-encrypted password manager backed by MySQL — with both CLI and GUI.'
   },
   {
-    key: "deep-dive",
-    label: "ML Deep Dive",
-    title: "Deep Learning Self-Study",
-    where: "Self-directed",
-    period: "2022 — Present",
-    points: [
-      "Working through PyTorch fundamentals — tensors, autograd, training loops, mixed precision.",
-      "Studying transformer architecture, attention mechanisms, embeddings, and modern fine-tuning techniques.",
-      "Reading papers on arXiv and reproducing key results to build intuition, not just vocabulary."
-    ]
+    year: '2025',
+    title: 'From scripts to assistants',
+    desc: 'Went deep on applied AI: a Gemini-powered speech assistant, a Wikipedia desktop app, and an email agent that summarizes your inbox and flags spam with an ML classifier.'
   },
   {
-    key: "school",
-    label: "School",
-    title: "School Education",
-    where: "Science Stream",
-    period: "2021 — Present",
-    points: [
-      "Pursuing formal school education with focus on physics, math, and computer science.",
-      "Building the mathematical foundation — linear algebra, calculus, probability — that machine learning depends on.",
-      "Balancing academic curriculum with self-directed engineering projects."
-    ]
-  },
-  {
-    key: "origin",
-    label: "Origin",
-    title: "Discovering Programming",
-    where: "Before 2021",
-    period: "Before 2021",
-    points: [
-      "First contact with Python and the joy of making computers do things.",
-      "Worked through basic algorithms, data structures, and the foundations of computer science.",
-      "The spark that turned a curious kid into someone who couldn't stop building."
-    ]
+    year: '2026',
+    title: 'Shipping AI products',
+    desc: 'Leveled up to production: CAREN, a full-stack AI email command center; a real-time AI phone agent on Exotel; and a live client website with a Google-Sheets CMS and CI/CD. Now interning at <a class="ulink" href="https://github.com/HBDigital" target="_blank" rel="noopener">Hummingbird Digital</a>, building for real users.'
   }
 ];
 
-// SVG icons used in feature links
+const TOOLS = ['Python', 'Pandas', 'scikit-learn', 'FastAPI', 'LangChain', 'Ollama', 'React', 'MySQL'];
+
+const ROTATOR_WORDS = ['decisions', 'products', 'agents', 'insight'];
+
+// ----- NOTION TAG PALETTE -----
+
+const TAG_COLORS = ['gray', 'brown', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'red'];
+const TAG_OVERRIDES = { Python: 'blue', JavaScript: 'yellow', React: 'blue', FastAPI: 'green' };
+
+function tagColor(name) {
+  if (TAG_OVERRIDES[name]) return TAG_OVERRIDES[name];
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return TAG_COLORS[h % TAG_COLORS.length];
+}
+
+function tag(name, small = false) {
+  return `<span class="tag t-${tagColor(name)}${small ? ' tag-sm' : ''}">${name}</span>`;
+}
+
+// ----- ICONS -----
+
 const ICONS = {
-  github: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>',
-  external: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+  github: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>',
+  external: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>',
+  globe: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/></svg>',
+  triangle: '<svg class="jt-tri" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M9 5.5l8 6.5-8 6.5z"/></svg>'
 };
+
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function slug(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
 
 // =====================================================
 // APP
@@ -285,354 +219,578 @@ const ICONS = {
 
 class Portfolio {
   constructor() {
-    this.renderStats();
+    this.toastTimer = null;
+
+    this.renderTools();
     this.renderFeatured();
     this.renderOther();
-    this.renderStack();
-    this.renderInsights();
-    this.renderAchievements();
-    this.renderTestimonials();
-    this.renderTimeline();
-    this.renderTabs();
+    this.renderSkills();
+    this.renderJourney();
 
-    this.spotlight();
-    this.scrollHeader();
+    // content is rendered after the browser's initial anchor jump,
+    // so deep links (/#journey) need a re-anchor once layout settles
+    if (location.hash) {
+      document.querySelector(location.hash)?.scrollIntoView();
+    }
+
+    this.sidebar();
+    this.share();
+    this.quickFind();
+    this.rotator();
     this.smoothScroll();
     this.activeSection();
-    this.hamburger();
     this.scrollReveal();
+    this.countUpStats();
+    this.copyButtons();
+    this.clock();
+    this.liveGitHub();
+
+    const year = document.getElementById('year');
+    if (year) year.textContent = new Date().getFullYear();
+
+    this.intro();
   }
 
-  // ---------- Stats ----------
-  renderStats() {
-    const root = document.getElementById('statsGrid');
-    if (!root) return;
-    root.innerHTML = stats.map(s => `
-      <article class="stat-card reveal">
-        <div class="stat-value">${s.value}</div>
-        <div class="stat-label">${s.label}</div>
-        <div class="stat-desc">${s.desc}</div>
-      </article>
-    `).join('');
-  }
+  // ---------- Wax-sealed envelope intro ----------
+  intro() {
+    const scene = document.getElementById('envScene');
+    if (!scene) return;
+    if (REDUCED_MOTION) { scene.remove(); return; }
 
-  // ---------- Timeline ----------
-  renderTimeline() {
-    const root = document.getElementById('timelineContainer');
-    if (!root) return;
-    root.innerHTML = timeline.map(t => `
-      <div class="timeline-item reveal">
-        <div class="timeline-dot" aria-hidden="true"></div>
-        <div class="timeline-content">
-          <div class="timeline-year">${t.year}</div>
-          <h3 class="timeline-title">${t.title}</h3>
-          <p class="timeline-desc">${t.desc}</p>
-        </div>
-      </div>
-    `).join('');
-  }
+    const app = document.getElementById('app');
+    const seal = document.getElementById('seal');
+    const letter = document.getElementById('letter');
+    const skip = document.getElementById('envSkip');
+    let finished = false;
+    let opened = false;
 
-  // ---------- Achievements ----------
-  renderAchievements() {
-    const root = document.getElementById('achievementsGrid');
-    if (!root) return;
-    root.innerHTML = achievements.map(a => `
-      <article class="achievement-card reveal">
-        <div class="achievement-icon" aria-hidden="true">${a.icon}</div>
-        <h3 class="achievement-title">${a.title}</h3>
-        <p class="achievement-desc">${a.desc}</p>
-      </article>
-    `).join('');
-  }
+    app?.setAttribute('inert', '');
 
-  // ---------- Testimonials Carousel ----------
-  renderTestimonials() {
-    const track = document.getElementById('testimonialsTrack');
-    const dotsContainer = document.getElementById('testimonialsDots');
-    if (!track || !dotsContainer) return;
-
-    track.innerHTML = testimonials.map((t, i) => `
-      <article class="testimonial-card ${i === 0 ? 'active' : ''}">
-        <p class="testimonial-quote">${t.quote}</p>
-        <div class="testimonial-author">
-          <div class="testimonial-name">${t.name}</div>
-          <div class="testimonial-role">${t.role}</div>
-        </div>
-      </article>
-    `).join('');
-
-    dotsContainer.innerHTML = testimonials.map((_, i) => `
-      <button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to testimonial ${i + 1}"></button>
-    `).join('');
-
-    this.setupTestimonialCarousel();
-  }
-
-  setupTestimonialCarousel() {
-    let currentIndex = 0;
-    const cards = document.querySelectorAll('.testimonial-card');
-    const dots = document.querySelectorAll('.carousel-dot');
-    const prevBtn = document.getElementById('testimonialsPrev');
-    const nextBtn = document.getElementById('testimonialsNext');
-    let autoplayInterval;
-
-    const updateCarousel = (index) => {
-      cards.forEach((card, i) => {
-        card.classList.remove('active', 'prev');
-        if (i === index) {
-          card.classList.add('active');
-        } else if (i < index) {
-          card.classList.add('prev');
-        }
-      });
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      app?.removeAttribute('inert');
+      document.removeEventListener('keydown', onKey);
+      scene.remove();
+      document.getElementById('top')?.focus({ preventScroll: true });
     };
 
-    const nextSlide = () => {
-      currentIndex = (currentIndex + 1) % testimonials.length;
-      updateCarousel(currentIndex);
-      resetAutoplay();
+    const skipNow = () => {
+      if (finished) return;
+      scene.classList.add('is-skipping');
+      this.replayEntrance();
+      setTimeout(finish, 300);
     };
 
-    const prevSlide = () => {
-      currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
-      updateCarousel(currentIndex);
-      resetAutoplay();
-    };
+    const onKey = e => { if (e.key === 'Escape') skipNow(); };
+    document.addEventListener('keydown', onKey);
+    skip?.addEventListener('click', skipNow);
 
-    const resetAutoplay = () => {
-      clearInterval(autoplayInterval);
-      startAutoplay();
-    };
+    seal?.addEventListener('click', () => {
+      if (opened || finished) return;
+      opened = true;
 
-    const startAutoplay = () => {
-      autoplayInterval = setInterval(nextSlide, 5000);
-    };
-
-    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        currentIndex = parseInt(dot.dataset.index);
-        updateCarousel(currentIndex);
-        resetAutoplay();
-      });
+      scene.classList.add('is-breaking');                            // wax cracks in two
+      setTimeout(() => scene.classList.add('is-opening'), 430);      // flap lifts
+      setTimeout(() => scene.classList.add('is-rising'), 1000);      // letter rises out
+      setTimeout(() => scene.classList.add('is-unfolding'), 1650);   // letter unfolds
+      setTimeout(() => {                                             // letter becomes the app
+        const r = letter.getBoundingClientRect();
+        const scale = Math.max(
+          (window.innerWidth * 1.06) / r.width,
+          (window.innerHeight * 1.08) / r.height
+        );
+        const dx = window.innerWidth / 2 - (r.left + r.width / 2);
+        const dy = window.innerHeight / 2 - (r.top + r.height / 2);
+        letter.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+        scene.classList.add('is-expanding');
+        this.replayEntrance();
+      }, 2450);
+      setTimeout(() => scene.classList.add('is-done'), 3080);        // crossfade to the site
+      setTimeout(finish, 3450);
     });
 
-    startAutoplay();
+    seal?.focus({ preventScroll: true });
   }
 
-  // ---------- Insights ----------
-  renderInsights() {
-    const root = document.getElementById('insightsGrid');
+  // re-run the page-head entrance animation after the intro clears
+  replayEntrance() {
+    document.querySelectorAll('.anim').forEach(el => {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+  }
+
+  // ---------- Toast ----------
+  toast(msg) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  async copyText(text, msg) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch { /* no-op */ }
+      ta.remove();
+    }
+    this.toast(msg);
+  }
+
+  // ---------- Render: tool pills ----------
+  renderTools() {
+    const root = document.getElementById('toolTags');
     if (!root) return;
-    root.innerHTML = insights.map(i => `
-      <article class="insight-card reveal">
-        <span class="insight-tag">${i.tag}</span>
-        <h3 class="insight-title">${i.title}</h3>
-        <p class="insight-desc">${i.desc}</p>
-        <div class="insight-meta">
-          <span>${i.date}</span>
-          <span>${i.read}</span>
-        </div>
-      </article>
-    `).join('');
+    root.innerHTML = TOOLS.map(t => tag(t)).join('');
   }
 
-  // ---------- Featured ----------
+  // ---------- Render: featured projects ----------
   renderFeatured() {
     const root = document.getElementById('featuredList');
     if (!root) return;
-    root.innerHTML = featuredProjects.map(p => `
-      <article class="feat reveal">
-        <a class="feat-visual" href="${p.links[0]?.href || '#'}" target="_blank" rel="noopener" aria-label="${p.title}">
-          <div class="feat-pattern"></div>
-          <span class="feat-glyph" aria-hidden="true">${p.glyph}</span>
-        </a>
-        <div class="feat-content">
-          <p class="feat-eyebrow">${p.eyebrow}</p>
-          <h3 class="feat-title">${p.title}</h3>
-          <p class="feat-desc">${p.description}</p>
-          <ul class="feat-tech">
-            ${p.tech.map(t => `<li>${t}</li>`).join('')}
-          </ul>
-          <div class="feat-links">
-            ${p.links.map(l => `<a href="${l.href}" target="_blank" rel="noopener" aria-label="${l.label}">${ICONS[l.icon] || ''}</a>`).join('')}
+    root.innerHTML = featuredProjects.map(p => {
+      const cmd = (p.term.lines.find(l => l.t === 'cmd') || p.term.lines[0]).x;
+      const bookmark = p.live ? `
+        <a class="bookmark" href="${p.live.url}" target="_blank" rel="noopener">
+          <span class="bm-text">
+            <span class="bm-title">${p.live.title}</span>
+            <span class="bm-desc">${p.live.desc}</span>
+            <span class="bm-url">${ICONS.globe}${p.live.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
+          </span>
+          <span class="bm-img"><img src="${p.live.img}" alt="Live preview of ${p.title}" loading="lazy"></span>
+        </a>` : '';
+      const liveLink = p.live
+        ? `<a class="feat-link" href="${p.live.url}" target="_blank" rel="noopener">${ICONS.globe}<span>Live site</span>${ICONS.external}</a>`
+        : '';
+      return `
+      <article class="feat reveal" id="${slug(p.title)}">
+        <p class="feat-eyebrow">${p.eyebrow}</p>
+        <h3 class="feat-title"><span class="h-emoji" aria-hidden="true">${p.emoji}</span><a href="${p.repo}" target="_blank" rel="noopener">${p.title}</a></h3>
+        <p class="feat-desc">${p.description}</p>
+        <div class="tags">${p.tech.map(t => tag(t)).join('')}</div>
+        ${bookmark}
+        <div class="code">
+          <div class="code-bar">
+            <span class="code-lang">shell</span>
+            <span class="code-title">${p.term.title}</span>
+            <button class="code-copy" type="button" data-copy="${cmd.replace(/"/g, '&quot;')}">Copy</button>
+          </div>
+          <div class="code-body">
+            ${p.term.lines.map((l, i) => `<p class="t-${l.t}" style="--i:${i}">${l.x}</p>`).join('')}
           </div>
         </div>
-      </article>
-    `).join('');
+        <div class="feat-links">
+          <a class="feat-link" href="${p.repo}" target="_blank" rel="noopener">${ICONS.github}<span>View the code</span>${ICONS.external}</a>
+          ${liveLink}
+        </div>
+      </article>`;
+    }).join('');
   }
 
-  // ---------- Other projects ----------
+  // ---------- Render: gallery database ----------
   renderOther() {
     const root = document.getElementById('otherList');
     if (!root) return;
     root.innerHTML = otherProjects.map(p => `
-      <article class="other-card reveal">
-        <div class="other-head">
-          <span class="other-icon" aria-hidden="true">${p.icon}</span>
-          <div class="other-links">
-            ${p.links.map(l => `<a class="other-link" href="${l.href}" target="_blank" rel="noopener" aria-label="${l.label}">${ICONS[l.icon] || ''}</a>`).join('')}
-          </div>
-        </div>
-        <h4 class="other-title">${p.title}</h4>
-        <p class="other-desc">${p.description}</p>
-        <ul class="other-tech">
-          ${p.tech.map(t => `<li>${t}</li>`).join('')}
-        </ul>
-      </article>
+      <a class="card reveal" id="${slug(p.title)}" href="${p.repo}" target="_blank" rel="noopener" aria-label="${p.title} on GitHub">
+        <span class="card-cover cv-${p.color}" aria-hidden="true">${p.emoji}</span>
+        <span class="card-body">
+          <span class="card-title">${p.title}</span>
+          <span class="card-desc">${p.description}</span>
+          <span class="tags">${tag(p.lang, true)}${p.tech.slice(0, 2).map(t => tag(t, true)).join('')}</span>
+        </span>
+      </a>
     `).join('');
   }
 
-  // ---------- Stack ----------
-  renderStack() {
-    const root = document.getElementById('stackGrid');
+  // ---------- Render: skills table ----------
+  renderSkills() {
+    const root = document.getElementById('skillsGrid');
     if (!root) return;
-    root.innerHTML = stackItems.map(s => `
-      <div class="stack-item">
-        <div class="stack-item-head">
-          <span class="stack-icon" aria-hidden="true">${s.icon}</span>
-          <span class="stack-name">${s.name}</span>
-        </div>
-        <span class="stack-desc">${s.desc}</span>
-      </div>
+    root.innerHTML = `
+      <thead>
+        <tr>
+          <th><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Area</th>
+          <th><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7h.01M7 12h.01M7 17h.01M11 7h6M11 12h6M11 17h6"/></svg>Toolkit</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${skillGroups.map(g => `
+          <tr class="reveal">
+            <td class="cell-area"><span class="h-emoji" aria-hidden="true">${g.emoji}</span>${g.name}</td>
+            <td><span class="tags">${g.chips.map(c => tag(c, true)).join('')}</span></td>
+          </tr>
+        `).join('')}
+      </tbody>`;
+  }
+
+  // ---------- Render: journey toggles ----------
+  renderJourney() {
+    const root = document.getElementById('journeyTrack');
+    if (!root) return;
+    root.innerHTML = journey.map(j => `
+      <details class="jt reveal" open>
+        <summary>${ICONS.triangle}<span class="jt-year">${j.year}</span> — ${j.title}</summary>
+        <p>${j.desc}</p>
+      </details>
     `).join('');
   }
 
-  // ---------- Tabs ----------
-  renderTabs() {
-    const list  = document.getElementById('tabList');
-    const panel = document.getElementById('tabPanel');
-    if (!list || !panel) return;
+  // ---------- Sidebar: drawer (mobile) + collapse (desktop) ----------
+  sidebar() {
+    const app = document.getElementById('app');
+    const toggle = document.getElementById('navToggle');
+    const collapse = document.getElementById('sidebarCollapse');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (!app || !toggle) return;
 
-    list.innerHTML = journey.map((j, i) => `
-      <button class="tab-btn${i === 0 ? ' active' : ''}" role="tab" data-key="${j.key}">${j.label}</button>
-    `).join('');
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
 
-    const renderPanel = (key) => {
-      const j = journey.find(x => x.key === key);
-      if (!j) return;
-      panel.innerHTML = `
-        <div class="tab-content">
-          <h3 class="tab-title">${j.title} <span class="tab-title-where">· ${j.where}</span></h3>
-          <p class="tab-period">${j.period}</p>
-          <ul class="tab-points">
-            ${j.points.map(p => `<li>${p}</li>`).join('')}
-          </ul>
-        </div>
-      `;
+    const closeDrawer = () => {
+      app.classList.remove('sb-open');
+      toggle.setAttribute('aria-expanded', 'false');
     };
+    this.closeNav = closeDrawer;
 
-    renderPanel(journey[0].key);
-
-    list.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        list.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderPanel(btn.dataset.key);
-      });
+    toggle.addEventListener('click', () => {
+      if (isMobile()) {
+        const open = app.classList.toggle('sb-open');
+        toggle.setAttribute('aria-expanded', String(open));
+      } else {
+        app.classList.remove('sb-collapsed');
+      }
     });
-  }
 
-  // ---------- Mouse spotlight ----------
-  spotlight() {
-    const sp = document.querySelector('.spotlight');
-    if (!sp) return;
-    if (window.matchMedia('(hover: none)').matches) return;
+    collapse?.addEventListener('click', () => {
+      if (isMobile()) closeDrawer();
+      else app.classList.add('sb-collapsed');
+    });
 
-    document.addEventListener('mousemove', e => {
-      sp.style.setProperty('--mx', `${e.clientX}px`);
-      sp.style.setProperty('--my', `${e.clientY}px`);
+    backdrop?.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && app.classList.contains('sb-open')) closeDrawer();
+    });
+
+    window.addEventListener('resize', () => {
+      if (!isMobile()) closeDrawer();
     }, { passive: true });
   }
 
-  // ---------- Header scroll ----------
-  scrollHeader() {
-    const header = document.querySelector('.header');
-    if (!header) return;
-    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+  // ---------- Share = copy page link ----------
+  share() {
+    document.getElementById('shareBtn')?.addEventListener('click', () =>
+      this.copyText(location.href, 'Page link copied to clipboard ✓'));
   }
 
-  // ---------- Smooth scroll ----------
+  // ---------- Quick find (⌘K) — real search over sections & projects ----------
+  quickFind() {
+    const overlay = document.getElementById('qf');
+    const input = document.getElementById('qfInput');
+    const list = document.getElementById('qfList');
+    if (!overlay || !input || !list) return;
+
+    const sections = [
+      { emoji: '🙋‍♂️', title: 'About me',                target: '#about' },
+      { emoji: '🚀',   title: 'Featured projects',       target: '#projects' },
+      { emoji: '🧰',   title: "More things I've built",  target: '#more-projects' },
+      { emoji: '🛠️',  title: 'Skills',                  target: '#skills' },
+      { emoji: '🧭',   title: 'Journey',                 target: '#journey' },
+      { emoji: '✉️',   title: "Let's build something",   target: '#contact' }
+    ].map(s => ({ ...s, sub: 'Section', hay: s.title.toLowerCase() }));
+
+    const projects = [...featuredProjects, ...otherProjects].map(p => ({
+      emoji: p.emoji,
+      title: p.title,
+      target: `#${slug(p.title)}`,
+      sub: 'Project',
+      hay: `${p.title} ${(p.tech || []).join(' ')} ${p.lang || ''}`.toLowerCase()
+    }));
+
+    const items = [...sections, ...projects];
+    let filtered = items;
+    let sel = 0;
+
+    const render = () => {
+      if (!filtered.length) {
+        list.innerHTML = '<p class="qf-empty">No results — it\'s probably on GitHub</p>';
+        return;
+      }
+      list.innerHTML = filtered.map((it, i) => `
+        <button class="qf-item${i === sel ? ' sel' : ''}" type="button" data-i="${i}">
+          <span class="qf-emoji" aria-hidden="true">${it.emoji}</span>
+          <span class="qf-title">${it.title}</span>
+          <span class="qf-sub">${it.sub}</span>
+        </button>`).join('');
+    };
+
+    const updateSel = () => {
+      list.querySelectorAll('.qf-item').forEach((el, i) => {
+        el.classList.toggle('sel', i === sel);
+        if (i === sel) el.scrollIntoView({ block: 'nearest' });
+      });
+    };
+
+    const open = () => {
+      this.closeNav?.();
+      overlay.classList.add('open');
+      input.value = '';
+      filtered = items;
+      sel = 0;
+      render();
+      input.focus();
+    };
+    const close = () => {
+      overlay.classList.remove('open');
+      input.blur();
+    };
+
+    const activate = it => {
+      if (!it) return;
+      close();
+      const el = document.querySelector(it.target);
+      if (!el) return;
+      el.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
+      el.classList.remove('flash');
+      void el.offsetWidth;
+      el.classList.add('flash');
+      setTimeout(() => el.classList.remove('flash'), 1500);
+    };
+
+    document.getElementById('sbSearch')?.addEventListener('click', open);
+
+    document.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        overlay.classList.contains('open') ? close() : open();
+      }
+    });
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      filtered = q ? items.filter(it => it.hay.includes(q)) : items;
+      sel = 0;
+      render();
+    });
+
+    overlay.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { close(); return; }
+      if (!filtered.length) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); sel = (sel + 1) % filtered.length; updateSel(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); sel = (sel - 1 + filtered.length) % filtered.length; updateSel(); }
+      else if (e.key === 'Enter') { e.preventDefault(); activate(filtered[sel]); }
+    });
+
+    list.addEventListener('click', e => {
+      const item = e.target.closest('.qf-item');
+      if (item) activate(filtered[parseInt(item.dataset.i, 10)]);
+    });
+    list.addEventListener('mouseover', e => {
+      const item = e.target.closest('.qf-item');
+      if (!item) return;
+      sel = parseInt(item.dataset.i, 10);
+      updateSel();
+    });
+
+    overlay.addEventListener('mousedown', e => {
+      if (e.target === overlay) close();
+    });
+  }
+
+  // ---------- Word rotator ----------
+  rotator() {
+    const el = document.getElementById('rotator');
+    if (!el || REDUCED_MOTION) return;
+    let i = 0;
+    setInterval(() => {
+      el.classList.add('swap');
+      setTimeout(() => {
+        i = (i + 1) % ROTATOR_WORDS.length;
+        el.textContent = ROTATOR_WORDS[i];
+        el.classList.remove('swap');
+      }, 260);
+    }, 2800);
+  }
+
+  // ---------- Smooth anchor scroll ----------
   smoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const id = a.getAttribute('href');
         if (!id || id === '#') return;
-        const t = document.querySelector(id);
-        if (!t) return;
+        const target = document.querySelector(id);
+        if (!target) return;
         e.preventDefault();
-        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Close mobile menu if open
-        document.getElementById('nav')?.classList.remove('open');
-        document.getElementById('navToggle')?.classList.remove('open');
+        target.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
+        this.closeNav?.();
       });
     });
   }
 
-  // ---------- Active section in nav ----------
+  // ---------- Active page in sidebar ----------
   activeSection() {
-    const links = document.querySelectorAll('.nav-link');
+    const scroller = document.getElementById('pageScroll');
+    const links = document.querySelectorAll('.sb-page');
     const sections = Array.from(document.querySelectorAll('section[id]'));
-    if (!sections.length) return;
+    if (!scroller || !sections.length) return;
 
     const onScroll = () => {
-      const y = window.scrollY + 140;
-      let current = sections[0].id;
+      const y = scroller.scrollTop + 150;
+      let current = '';
       for (const s of sections) {
         if (s.offsetTop <= y) current = s.id;
       }
+      // the last section is too short to reach the top of the viewport,
+      // so scrolling to the bottom counts as being in it
+      if (scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 60) {
+        current = sections[sections.length - 1].id;
+      }
       links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    scroller.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
-  // ---------- Hamburger ----------
-  hamburger() {
-    const toggle = document.getElementById('navToggle');
-    const nav    = document.getElementById('nav');
-    if (!toggle || !nav) return;
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      nav.classList.toggle('open');
-    });
-  }
-
-  // ---------- Scroll reveal ----------
+  // ---------- Reveal on scroll ----------
   scrollReveal() {
+    const els = document.querySelectorAll('.reveal');
+    if (REDUCED_MOTION) {
+      els.forEach(el => el.classList.add('visible'));
+      return;
+    }
     const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('visible');
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    // Animate cards
-    document.querySelectorAll('.reveal').forEach((el, i) => {
-      el.style.transitionDelay = `${Math.min(i * 60, 400)}ms`;
+    els.forEach(el => {
+      const siblings = el.parentElement
+        ? Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal'))
+        : [];
+      const idx = Math.max(siblings.indexOf(el), 0);
+      el.style.transitionDelay = `${Math.min(idx, 6) * 60}ms`;
       io.observe(el);
     });
 
-    // Animate section titles
-    const titleIO = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('visible');
-        titleIO.unobserve(entry.target);
+    // safety pass: deep links land mid-page, so reveal anything
+    // already at or above the viewport once layout settles
+    setTimeout(() => {
+      els.forEach(el => {
+        if (!el.classList.contains('visible') &&
+            el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('visible');
+        }
       });
-    }, { threshold: 0.5, rootMargin: '0px 0px -100px 0px' });
+    }, 80);
+  }
 
-    document.querySelectorAll('.section-title').forEach(el => {
-      titleIO.observe(el);
+  // ---------- Count-up stats ----------
+  countUpStats() {
+    const strip = document.getElementById('statStrip');
+    if (!strip) return;
+    const nums = strip.querySelectorAll('.stat-num');
+
+    const animate = el => {
+      const target = parseInt(el.dataset.count, 10) || 0;
+      if (REDUCED_MOTION) { el.textContent = target; return; }
+      const dur = 1100;
+      const t0 = performance.now();
+      const tick = now => {
+        const p = Math.min((now - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      nums.forEach(animate);
+      io.disconnect();
+    }, { threshold: 0.4 });
+    io.observe(strip);
+  }
+
+  // ---------- Copy buttons (email + code blocks) ----------
+  copyButtons() {
+    const btn = document.getElementById('copyEmail');
+    btn?.addEventListener('click', () =>
+      this.copyText(btn.dataset.email, 'Email copied to clipboard ✓'));
+
+    document.addEventListener('click', e => {
+      const copy = e.target.closest('.code-copy');
+      if (!copy) return;
+      this.copyText(copy.dataset.copy, 'Command copied to clipboard ✓');
     });
+  }
+
+  // ---------- Footer IST clock ----------
+  clock() {
+    const footer = document.getElementById('localTime');
+    if (!footer) return;
+    const fmt = new Intl.DateTimeFormat('en-IN', {
+      hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata'
+    });
+    const tick = () => { footer.textContent = `${fmt.format(new Date())} IST`; };
+    tick();
+    setInterval(tick, 30000);
+  }
+
+  // ---------- Relative date for the "Edited" label ----------
+  relTime(date) {
+    const days = Math.floor((Date.now() - date.getTime()) / 86400000);
+    if (days <= 0) return 'today';
+    if (days === 1) return 'yesterday';
+    if (days < 7) return `${days} days ago`;
+    const opts = { month: 'short', day: 'numeric' };
+    if (date.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
+    return new Intl.DateTimeFormat('en', opts).format(date);
+  }
+
+  // ---------- Live GitHub stats ----------
+  liveGitHub() {
+    fetch(`https://api.github.com/users/${GITHUB_USER}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (!data || !data.public_repos) return;
+        const repoStat = document.getElementById('statRepos');
+        if (repoStat) {
+          repoStat.dataset.count = data.public_repos;
+          // if the count-up already ran, update in place
+          if (parseInt(repoStat.textContent, 10) > 0) {
+            repoStat.textContent = data.public_repos;
+          }
+        }
+        const ghRepos = document.getElementById('ghRepos');
+        if (ghRepos) ghRepos.textContent = data.public_repos;
+      })
+      .catch(() => { /* offline or rate-limited — static fallbacks stay */ });
+
+    // The "Edited" label shows the repo's real last-push date
+    fetch(`https://api.github.com/repos/${GITHUB_USER}/website`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (!data || !data.pushed_at) return;
+        const edited = document.getElementById('editedTime');
+        if (edited) edited.textContent = `Edited ${this.relTime(new Date(data.pushed_at))}`;
+      })
+      .catch(() => { /* keep "Edited recently" */ });
   }
 }
 

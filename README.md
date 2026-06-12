@@ -1,43 +1,31 @@
-# 🚀 My Interactive Portfolio
+# Niranjan — Portfolio
 
-Welcome to my personal portfolio website! This project is a modern and responsive showcase of my skills, projects, and journey as a developer. It's designed to be visually engaging and provide a seamless user experience.
+My personal portfolio: **[tgvenomyt.github.io/website](https://tgvenomyt.github.io/website/)**
 
-## ✨ Features
+Data scientist & AI builder. This site showcases my real projects — an AI email command
+center with a scikit-learn spam classifier, a real-time AI phone agent, a production
+client website, and more — every card links to actual code.
 
-*   **Responsive Design:** Looks great on all devices, from mobile phones to desktop computers.
-*   **Smooth Animations:** Interactive elements and scroll-triggered animations to keep things interesting.
-*   **Dynamic Content:** Project, skill, and experience data are loaded dynamically from a JavaScript file, making it easy to update.
-*   **Custom Cursor:** A unique cursor effect that adds a touch of personality.
-*   **Contact Form:** A functional contact form for reaching out.
+## Built with
 
-## 🛠️ Technologies Used
+- **Vanilla HTML, CSS & JavaScript** — no frameworks, no build step
+- **Notion-style UI**: app window with sidebar, topbar, page icon & properties,
+  callouts, to-do blocks, toggles, a gallery-view project database, a skills
+  table, code blocks, web-bookmark cards with live site previews, and Notion's
+  pastel tag palette
+- **Old-paper background**: layered SVG turbulence textures, stains, and a
+  burnt-edge vignette behind the floating app window
+- Collapsible sidebar (drawer on mobile), copy-email & share with Notion-style
+  toasts, live "Edited" IST clock, typed-in code-block lines
+- Live stats pulled from the GitHub API
+- Fully responsive and accessible — skip link, `prefers-reduced-motion`, focus rings
 
-*   **Frontend:** HTML, CSS, JavaScript
-*   **Libraries:** [Chart.js](https://www.chartjs.org/) (for data visualization)
+## Run locally
 
-## 🚀 Getting Started
+```bash
+git clone https://github.com/TGvenomYT/website.git
+cd website
+python3 -m http.server 8001
+```
 
-To run this project locally, follow these steps:
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    ```
-2.  **Navigate to the project directory:**
-    ```bash
-    cd your-repo-name
-    ```
-3.  **Start a local server:**
-    You can use Python's built-in HTTP server to run the website locally.
-    ```bash
-    python3 -m http.server 8001
-    ```
-4.  **Open in your browser:**
-    Open your web browser and navigate to `http://localhost:8001`.
-
-## 📸 Screenshots
-
-*(Coming soon!)*
-
----
-
+Then open `http://localhost:8001`.
