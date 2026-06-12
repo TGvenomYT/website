@@ -415,6 +415,59 @@ const SFX = {
     o.start(t); o.stop(t + dur);
   },
 
+  // wing flutter — soft low-passed air puffs on a wingbeat cycle
+  flutter(dur = 1.2, vol = 0.4) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t0 = ctx.currentTime;
+    const beat = 0.16;
+    for (let t = 0; t < dur; t += beat) {
+      const src = this._noise(0.07);
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass';
+      lp.frequency.setValueAtTime(900, t0 + t);
+      lp.frequency.exponentialRampToValueAtTime(280, t0 + t + 0.07);
+      const g = ctx.createGain();
+      const a = vol * (0.6 + Math.random() * 0.4);
+      g.gain.setValueAtTime(0.0001, t0 + t);
+      g.gain.linearRampToValueAtTime(a, t0 + t + 0.018);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + t + 0.07);
+      src.connect(lp); lp.connect(g); g.connect(this.master);
+      src.start(t0 + t); src.stop(t0 + t + 0.08);
+    }
+  },
+
+  // dove coo — two soft syllables, the second with a slow vibrato
+  coo(vol = 0.3) {
+    const ctx = this.ensure(); if (!ctx) return;
+    const t = ctx.currentTime;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1100;
+    lp.connect(this.master);
+
+    const o1 = ctx.createOscillator(); o1.type = 'triangle';
+    o1.frequency.setValueAtTime(470, t);
+    o1.frequency.exponentialRampToValueAtTime(430, t + 0.09);
+    const g1 = ctx.createGain();
+    g1.gain.setValueAtTime(0.0001, t);
+    g1.gain.linearRampToValueAtTime(vol, t + 0.025);
+    g1.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
+    o1.connect(g1); g1.connect(lp);
+    o1.start(t); o1.stop(t + 0.12);
+
+    const t2 = t + 0.15;
+    const o2 = ctx.createOscillator(); o2.type = 'triangle';
+    o2.frequency.setValueAtTime(392, t2);
+    const vib = ctx.createOscillator(); vib.frequency.value = 6.5;
+    const vibG = ctx.createGain(); vibG.gain.value = 14;
+    vib.connect(vibG); vibG.connect(o2.frequency);
+    const g2 = ctx.createGain();
+    g2.gain.setValueAtTime(0.0001, t2);
+    g2.gain.linearRampToValueAtTime(vol * 0.9, t2 + 0.04);
+    g2.gain.setValueAtTime(vol * 0.9, t2 + 0.2);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.34);
+    o2.connect(g2); g2.connect(lp);
+    o2.start(t2); o2.stop(t2 + 0.36);
+    vib.start(t2); vib.stop(t2 + 0.36);
+  },
+
   // bell chime — two soft notes, each with inharmonic overtones
   chime(vol = 0.4) {
     const ctx = this.ensure(); if (!ctx) return;
@@ -467,6 +520,7 @@ class Portfolio {
 
     this.sidebar();
     this.share();
+    this.letterbox();
     this.quickFind();
     this.rotator();
     this.smoothScroll();
@@ -809,6 +863,127 @@ class Portfolio {
       env.style.removeProperty('--tx');
       env.style.removeProperty('--ty');
     }, 3960));
+  }
+
+  // ---------- Note to me: validate, fold, and send by dove ----------
+  letterbox() {
+    const form = document.getElementById('lbForm');
+    const email = document.getElementById('lbEmail');
+    const msg = document.getElementById('lbMsg');
+    if (!form || !email || !msg) return;
+
+    const markBad = el => {
+      el.classList.add('lb-bad');
+      el.focus();
+      el.addEventListener('input', () => el.classList.remove('lb-bad'), { once: true });
+    };
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const addr = email.value.trim();
+      const text = msg.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) {
+        markBad(email);
+        this.toast('Add your email so I can write back');
+        return;
+      }
+      if (!text) {
+        markBad(msg);
+        this.toast('Write a few words first — the page is empty');
+        return;
+      }
+
+      const done = () => {
+        form.reset();
+        this.toast(`Delivered — I'll write back to ${addr} soon`);
+      };
+
+      if (REDUCED_MOTION) { done(); return; }
+      SFX.ensure();
+      this.doveDelivery(addr, text, done);
+    });
+  }
+
+  // ---------- The dove delivery animation ----------
+  // fold in thirds → slide into the envelope → flap shut → wax seal
+  // → the dove glides in, takes the envelope, and carries it away
+  doveDelivery(addr, text, done) {
+    const scene = document.getElementById('dlScene');
+    if (!scene || scene.classList.contains('busy')) return;
+    const stage = document.getElementById('dlStage');
+    const env = document.getElementById('dlEnv');
+    const dove = document.getElementById('dlDove');
+    const from = document.getElementById('dlFrom');
+    const body = document.getElementById('dlMsg');
+    const cap = document.getElementById('dlCaption');
+
+    // the visitor's words ride along (textContent keeps it safe)
+    if (from) from.textContent = `From: ${addr}`;
+    if (body) body.textContent = text;
+
+    scene.className = 'dl-scene';
+    void scene.offsetWidth;
+
+    const caption = t => { if (cap) cap.textContent = t; };
+    caption('Folding your note…');
+    scene.classList.add('active', 'busy');
+    void scene.offsetWidth;                                  // let display:flex settle
+    scene.classList.add('is-visible');
+
+    // aim the dove so its feet (svg ~112,109 of 220x160) grip the
+    // top edge of the sealed envelope — which it then carries off
+    const aimDove = () => {
+      if (!stage || !env || !dove) return;
+      const sr = stage.getBoundingClientRect();
+      const er = env.getBoundingClientRect();
+      const k = dove.offsetWidth / 220;
+      const dx = (er.left + er.width / 2) - sr.left - 112 * k;
+      const dy = (er.top + 6) - sr.top - 109 * k;
+      dove.style.setProperty('--dx', `${dx.toFixed(1)}px`);
+      dove.style.setProperty('--dy', `${dy.toFixed(1)}px`);
+    };
+
+    setTimeout(() => { scene.classList.add('is-fold1'); SFX.paper(0.5); }, 700);
+    setTimeout(() => { scene.classList.add('is-fold2'); SFX.paper(0.46, 0.48); }, 1650);
+    setTimeout(() => {
+      scene.classList.add('is-env');
+      caption('Tucking it into an envelope…');
+    }, 2650);
+    setTimeout(() => { scene.classList.add('is-insert'); SFX.paper(0.4, 0.4); }, 3250);
+    setTimeout(() => { scene.classList.add('is-close'); SFX.paper(0.36, 0.42); }, 4050);
+    setTimeout(() => {
+      scene.classList.add('is-seal');
+      SFX.thud(0.7);
+      caption('Sealed.');
+    }, 4750);
+    setTimeout(() => {
+      aimDove();
+      scene.classList.add('is-flyin');
+      SFX.flutter(1.4, 0.24);
+      SFX.whoosh(0.6, 0.22);
+      caption('Off it goes.');
+    }, 5600);
+    setTimeout(() => {
+      scene.classList.add('is-carry');
+      SFX.coo(0.2);
+    }, 7100);
+    setTimeout(() => {
+      scene.classList.add('is-flyout');
+      SFX.whoosh(0.75, 0.35);
+      SFX.flutter(1.5, 0.22);
+    }, 7900);
+    setTimeout(() => { SFX.chime(0.3); }, 9100);
+    setTimeout(() => {
+      scene.classList.remove('is-visible');
+      scene.classList.add('is-gone');
+    }, 9400);
+    setTimeout(() => {
+      scene.className = 'dl-scene';
+      dove?.style.removeProperty('--dx');
+      dove?.style.removeProperty('--dy');
+      done();
+    }, 9800);
   }
 
   // ---------- Quick find (⌘K) — real search over sections & projects ----------

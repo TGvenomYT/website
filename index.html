@@ -129,6 +129,73 @@
         </div>
     </div>
 
+    <!-- ============ NOTE TO ME: TRI-FOLD, ENVELOPE & DOVE ============ -->
+    <div class="dl-scene" id="dlScene" aria-hidden="true">
+        <div class="dl-bg"></div>
+        <div class="dl-stage" id="dlStage">
+            <div class="envelope" id="dlEnv">
+                <div class="env-inside" aria-hidden="true"></div>
+                <div class="dl-letter" id="dlLetter">
+                    <div class="dl-p dl-p1">
+                        <div class="dl-face">
+                            <p class="dl-line">To: Niranjan · The Old Paper Desk</p>
+                            <p class="dl-line dl-from" id="dlFrom">From: you</p>
+                        </div>
+                    </div>
+                    <div class="dl-p dl-p2">
+                        <div class="dl-face"><p class="dl-msg" id="dlMsg"></p></div>
+                    </div>
+                    <div class="dl-p dl-p3">
+                        <div class="dl-face"><p class="dl-sig">— sent from your portfolio</p></div>
+                    </div>
+                </div>
+                <div class="env-side env-side-l" aria-hidden="true"></div>
+                <div class="env-side env-side-r" aria-hidden="true"></div>
+                <div class="env-bottom" aria-hidden="true"></div>
+                <div class="env-flap" aria-hidden="true"></div>
+                <span class="seal" aria-hidden="true">
+                    <span class="seal-half seal-l">N</span>
+                    <span class="seal-half seal-r">N</span>
+                </span>
+            </div>
+
+            <div class="dove" id="dlDove" aria-hidden="true">
+                <div class="dove-bob">
+                    <svg viewBox="0 0 220 160" fill="none">
+                        <defs>
+                            <linearGradient id="dvBody" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0.45" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9E6DF"/>
+                            </linearGradient>
+                            <linearGradient id="dvWingN" x1="0" y1="0" x2="0.4" y2="1">
+                                <stop offset="0.3" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EDEAE4"/>
+                            </linearGradient>
+                            <linearGradient id="dvWingF" x1="0" y1="0" x2="0.4" y2="1">
+                                <stop offset="0.2" stop-color="#F0EDE7"/><stop offset="1" stop-color="#DDD9D0"/>
+                            </linearGradient>
+                        </defs>
+                        <g class="dv-wing dv-wing-far">
+                            <path d="M106 68 C96 52 82 34 60 23 C52 19 43 18 39 21 Q48 28 56 34 L49 33 Q60 43 70 48 L64 47 Q76 56 88 61 C95 64 102 67 106 68 Z"
+                                  fill="url(#dvWingF)" stroke="rgba(101,98,92,0.35)" stroke-width="1" stroke-linejoin="round"/>
+                        </g>
+                        <path d="M50 80 C36 82 20 88 6 98 C22 94 36 92 50 90 Z" fill="#F2EFEA" stroke="rgba(101,98,92,0.35)" stroke-width="1" stroke-linejoin="round"/>
+                        <path d="M50 90 C38 95 26 103 16 114 C30 108 42 102 54 97 Z" fill="#E8E5DE" stroke="rgba(101,98,92,0.35)" stroke-width="1" stroke-linejoin="round"/>
+                        <path d="M108 94 L104 110 M120 90 L116 108" stroke="#B98A4F" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M40 78 C64 70 92 64 116 60 C132 57 142 54 148 50 C150 42 158 38 166 40 C174 42 177 49 173 55 C170 60 164 63 158 64 C152 72 142 80 126 86 C108 96 80 98 58 94 C50 92 43 86 40 78 Z"
+                              fill="url(#dvBody)" stroke="rgba(101,98,92,0.4)" stroke-width="1.1" stroke-linejoin="round"/>
+                        <path d="M174 47 L187 51 L173 54 C172 52 172 49 174 47 Z" fill="#D9A05B" stroke="rgba(140,95,40,0.4)" stroke-width="0.8" stroke-linejoin="round"/>
+                        <circle cx="165" cy="47" r="1.8" fill="#4A4742"/>
+                        <g class="dv-wing dv-wing-near">
+                            <path d="M122 66 C111 48 96 25 75 10 C69 5 62 2 58 4 Q63 15 71 23 L64 19 Q71 32 80 38 L74 35 Q82 46 91 50 L86 48 Q95 58 105 62 C111 64 118 66 122 66 Z"
+                                  fill="url(#dvWingN)" stroke="rgba(101,98,92,0.4)" stroke-width="1.1" stroke-linejoin="round"/>
+                            <path d="M77 15 C89 29 99 41 109 51" stroke="rgba(101,98,92,0.18)" stroke-width="1"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <p class="dl-caption" id="dlCaption">Folding your note&hellip;</p>
+        </div>
+    </div>
+
     <!-- ============ THE NOTION WINDOW, RESTING ON OLD PAPER ============ -->
     <div class="app" id="app">
 
@@ -434,6 +501,33 @@
                                 collaborations</strong>. If you're hiring — or just want to talk data and AI —
                                 my inbox is open and I reply fast.</p>
                             </div>
+
+                            <form class="lb reveal" id="lbForm" novalidate>
+                                <div class="lb-head">
+                                    <span class="lb-title">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:#91918E"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        Send me a note
+                                    </span>
+                                    <span class="lb-stamp" aria-hidden="true">By dove · air mail</span>
+                                </div>
+                                <label class="lb-row">
+                                    <span class="lb-label">From</span>
+                                    <input class="lb-input" id="lbEmail" type="email" autocomplete="email" placeholder="you@example.com" spellcheck="false">
+                                </label>
+                                <label class="lb-row">
+                                    <span class="lb-label">Message</span>
+                                    <textarea class="lb-input lb-msg" id="lbMsg" rows="4" placeholder="Hi Niranjan — let's talk about…"></textarea>
+                                </label>
+                                <div class="lb-foot">
+                                    <span class="lb-hint">Goes straight to my inbox. No spam, ever.</span>
+                                    <button class="btn btn-primary" id="lbSend" type="submit">
+                                        Send
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <p class="reveal block-label">Or reach me directly:</p>
                             <div class="actions reveal">
                                 <a class="btn btn-primary" href="mailto:rajicbe1969@gmail.com">Say hello</a>
                                 <a class="btn btn-secondary" href="https://wa.me/+919345988543" target="_blank" rel="noopener">WhatsApp me</a>
