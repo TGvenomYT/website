@@ -931,15 +931,15 @@ class Portfolio {
     void scene.offsetWidth;                                  // let display:flex settle
     scene.classList.add('is-visible');
 
-    // aim the dove so its feet (svg ~112,109 of 220x160) grip the
+    // aim the dove so its feet (svg ~116,111 of 220x160) grip the
     // top edge of the sealed envelope — which it then carries off
     const aimDove = () => {
       if (!stage || !env || !dove) return;
       const sr = stage.getBoundingClientRect();
       const er = env.getBoundingClientRect();
       const k = dove.offsetWidth / 220;
-      const dx = (er.left + er.width / 2) - sr.left - 112 * k;
-      const dy = (er.top + 6) - sr.top - 109 * k;
+      const dx = (er.left + er.width / 2) - sr.left - 116 * k;
+      const dy = (er.top + 6) - sr.top - 111 * k;
       dove.style.setProperty('--dx', `${dx.toFixed(1)}px`);
       dove.style.setProperty('--dy', `${dy.toFixed(1)}px`);
     };

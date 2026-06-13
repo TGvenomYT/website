@@ -2278,10 +2278,11 @@ strong { font-weight: 600; }
   width: min(380px, 76vw);
   opacity: 0;
   pointer-events: none;
-  transform-origin: 51% 65%;     /* the feet — shared pivot with the envelope */
+  transform-origin: 52.7% 69.4%; /* the feet — shared pivot with the envelope */
   will-change: transform;
 }
-.dove svg { width: 100%; height: auto; display: block; }
+/* overflow visible so the raised wing can sweep past the viewBox top mid-flap */
+.dove svg { width: 100%; height: auto; display: block; overflow: visible; }
 .dl-scene.is-flyin .dove,
 .dl-scene.is-carry .dove,
 .dl-scene.is-flyout .dove { opacity: 1; }
