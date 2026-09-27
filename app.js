@@ -538,7 +538,7 @@ const CMDS = {
     openFsItem(path);
     p(`opened ${displayPath(path)}`, 'ok');
   },
-  whoami: (a, p) => p('niranjan — data scientist & AI engineer · currently interning at Hummingbird Digital', 'mauve'),
+  whoami: (a, p) => p('niranjan — data scientist & AI engineer · 1st-year B.Tech AI & Data Science @ KPRIET, Arasur', 'mauve'),
   skills: (a, p) => {
     p(`<b class="mauve">skills</b>`);
     p(`  <span class="teal">data</span>       Python · Pandas · NumPy · scikit-learn · SQL · Jupyter · EDA`);
@@ -809,8 +809,9 @@ I write Python for a living: scikit-learn for the classical stuff,
 LangChain / Ollama / Pipecat for the LLM-shaped stuff, FastAPI to
 glue it into real services, React when it needs a face.
 
-Right now I'm interning at <span class="teal">Hummingbird Digital</span>,
-shipping code that real users touch.
+Right now I'm a first-year <span class="teal">B.Tech AI & Data Science</span>
+student at KPRIET, Arasur — building AI products between classes.
+Before that I interned at Hummingbird Digital, shipping code real users touched.
 
 <span class="mauve"># now</span>
 - production AI email agent (<b>CAREN</b>)
@@ -825,8 +826,12 @@ const RESUME_TXT = `<pre class="term-line" style="margin:0">
 NIRANJAN — Data Scientist & AI Engineer
 ════════════════════════════════════════
 
+EDUCATION
+  2026-2030  B.Tech · Artificial Intelligence & Data Science
+             KPR Institute of Engineering and Technology (KPRIET), Arasur
+
 EXPERIENCE
-  2026-now   AI Engineer Intern · Hummingbird Digital
+  2026       AI Engineer Intern · Hummingbird Digital
   2025       Independent AI/ML projects (open-source)
   2024       Python fundamentals → first shipped apps
 
@@ -894,7 +899,7 @@ const EMAIL_VCF = `<pre class="term-line" style="margin:0">BEGIN:VCARD
 VERSION:3.0
 FN:Niranjan
 TITLE:Data Scientist &amp; AI Engineer
-ORG:Hummingbird Digital
+ORG:KPR Institute of Engineering and Technology (KPRIET)
 URL:https://github.com/TGvenomYT
 NOTE:type <b>contact</b> in the terminal for the full card.
 END:VCARD</pre>`;
@@ -1100,7 +1105,7 @@ function mountAbout(body) {
       <p class="lead">I build AI products. Data science with scikit-learn, LLM systems with LangChain and Ollama, real-time voice with Pipecat, and the FastAPI + React glue that makes it feel like a product instead of a demo.</p>
 
       <h2>## now</h2>
-      <p>Interning at <a href="https://github.com/HBDigital" target="_blank" rel="noopener">Hummingbird Digital</a>, shipping code real users touch. Between that: <a href="https://github.com/TGvenomYT/CAREN-agent" target="_blank" rel="noopener">CAREN</a> — an AI email command center — and a real-time AI phone agent on Exotel × Pipecat.</p>
+      <p>First-year B.Tech Artificial Intelligence &amp; Data Science student at <b>KPRIET</b> (Arasur, Coimbatore). Building AI products on the side: <a href="https://github.com/TGvenomYT/CAREN-agent" target="_blank" rel="noopener">CAREN</a> — an AI email command center — and a real-time AI phone agent on Exotel × Pipecat. Previously interned at <a href="https://github.com/HBDigital" target="_blank" rel="noopener">Hummingbird Digital</a>.</p>
 
       <h2>## how I work</h2>
       <ul>
