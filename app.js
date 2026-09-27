@@ -64,6 +64,41 @@ const PROJECTS = [
     tech: ['Zsh', 'Python', 'On-device AI']
   },
   {
+    id: 'homelab', emoji: '🖥️', accent: 'var(--green)',
+    eyebrow: 'Infrastructure · self-hosted',
+    title: 'Self-Hosted Homelab & Observability',
+    desc: 'A Linux server running my own stack: Docker services behind <b>Cloudflare Tunnels</b> and a <b>Tailscale</b> mesh VPN, a self-hosted <b>Supabase</b>, a CI runner, and full <b>Grafana + Loki</b> observability — plus an autonomous <b>DevOps agent</b> that manages containers and processes from natural-language commands, and a React + Express monitoring dashboard.',
+    tech: ['Docker', 'Grafana', 'Loki', 'Cloudflare Tunnel', 'Tailscale', 'Supabase']
+  },
+  {
+    id: 'agentkit', emoji: '🧰', accent: 'var(--flamingo)',
+    eyebrow: 'AI infrastructure',
+    title: 'AgentKit — AI Tool Gateway',
+    desc: 'A unified gateway that exposes DevOps, terminal, and personal-assistant capabilities to any AI agent through three interfaces — a <b>CLI</b>, Ollama function-schemas, and a <b>Model Context Protocol (MCP)</b> server. Verified against local Gemma models.',
+    tech: ['Python', 'MCP', 'Ollama', 'stdlib-only']
+  },
+  {
+    id: 'blackwall', emoji: '🛡️', accent: 'var(--red)',
+    eyebrow: 'Security engineering',
+    title: 'Blackwall — Recon Agent',
+    desc: 'An LLM-orchestrated reconnaissance & enumeration agent (<b>nmap</b>, <b>ffuf</b>, web probing) for authorized, <b>homelab-scoped</b> security testing — driven over SSH and locked to my own lab.',
+    tech: ['Python', 'nmap', 'ffuf', 'LLM']
+  },
+  {
+    id: 'guardian', emoji: '🕵️', accent: 'var(--teal)',
+    eyebrow: 'Security engineering',
+    title: 'Guardian — Endpoint Defense',
+    desc: 'Request logging, rate-limiting, and automated banning of crawlers and probes that defend a public <b>MCP endpoint</b> — exposed as agent-callable defensive tools, with a before/after write-up.',
+    tech: ['Python', 'MCP', 'Rate-limiting', 'Defense']
+  },
+  {
+    id: 'breachmon', emoji: '🔎', accent: 'var(--yellow)',
+    eyebrow: 'Security engineering',
+    title: 'Personal Breach Monitor',
+    desc: 'A credential-exposure checker that audits your own email and passwords against public breach corpuses (<b>XposedOrNot</b>, <b>HIBP</b>) — the safe, defensive answer to “am I exposed?”.',
+    tech: ['Python', 'HIBP', 'XposedOrNot']
+  },
+  {
     id: 'mail', emoji: '📨', accent: 'var(--blue)',
     eyebrow: 'Automation',
     title: 'Mailing Agent',
@@ -866,6 +901,9 @@ STACK
 
 SHIPPED
   · SafeSphere — SIH 2026 flood victim-detection (app + BLE mesh + dashboard)
+  · Self-hosted homelab — Docker · Grafana/Loki · Cloudflare · Tailscale
+  · AgentKit — unified AI tool gateway (CLI · Ollama · MCP)
+  · Blackwall / Guardian — recon agent + MCP endpoint defense
   · CAREN — AI email command center (LLM + ML classifier)
   · Exotel × Pipecat — real-time AI phone agent
   · KVMTCC — Next.js site with Google-Sheets CMS (production)
