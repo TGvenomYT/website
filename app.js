@@ -14,6 +14,14 @@ const GITHUB = 'https://github.com/TGvenomYT';
 
 const PROJECTS = [
   {
+    id: 'safesphere', emoji: '🛰️', accent: 'var(--sky)',
+    eyebrow: 'Featured · SIH 2026 · disaster response',
+    title: 'SafeSphere — Flood Victim Detection',
+    live: 'https://safesphere.me',
+    desc: 'A Smart India Hackathon 2026 disaster-response platform: a citizen <b>SOS app</b> and an <b>authority dashboard</b> for locating and reaching flood victims. Automatically falls back to a <b>Bluetooth mesh</b> when the network is down, and arms risk zones from live <b>CWC river-gauge</b> data.',
+    tech: ['Flutter', 'Supabase', 'PostgreSQL', 'Leaflet', 'BLE Mesh', 'Cloudflare']
+  },
+  {
     id: 'caren', emoji: '🧠', accent: 'var(--mauve)',
     eyebrow: 'Featured · AI + ML product',
     title: 'CAREN — AI Email Command Center',
@@ -38,6 +46,22 @@ const PROJECTS = [
     live: 'https://tgvenomyt.github.io/KVM-Website/',
     desc: 'A production marketing site for a real tuition centre. <b>Next.js 15</b> static export backed by a <b>Google-Sheets CMS</b> — non-technical admins update content, GitHub Actions deploys.',
     tech: ['Next.js 15', 'React 19', 'Tailwind', 'Framer Motion', 'GitHub Actions']
+  },
+  {
+    id: 'cortex', emoji: '🧩', accent: 'var(--lavender)',
+    eyebrow: 'Local-first AI',
+    title: 'Cortex — Personal AI Daemon',
+    repo: 'https://github.com/TGvenomYT/Cortex-Agent',
+    desc: 'A local-first personal assistant: background collectors build a private memory in self-hosted <b>Supabase</b>, and a <b>local LLM</b> answers questions and delivers scheduled briefings — entirely on your own hardware.',
+    tech: ['Python', 'Ollama', 'Supabase', 'Local LLM']
+  },
+  {
+    id: 'smartterm', emoji: '⌨️', accent: 'var(--sapphire)',
+    eyebrow: 'Developer tooling',
+    title: 'smart-terminal',
+    repo: 'https://github.com/TGvenomYT/smart-terminal',
+    desc: 'A natural-language terminal assistant: describe what you want and it resolves the shell command through a layered <b>custom → learned → dictionary → on-device AI</b> pipeline, learning your shortcuts as you go.',
+    tech: ['Zsh', 'Python', 'On-device AI']
   },
   {
     id: 'mail', emoji: '📨', accent: 'var(--blue)',
@@ -518,7 +542,7 @@ const CMDS = {
     PROJECTS.forEach(pr => {
       p(`  <span class="peach">${pr.emoji}</span>  <b>${pr.title}</b>`);
       p(`      <span class="dim">${stripHtml(pr.desc).slice(0, 110)}…</span>`);
-      p(`      <a href="${pr.repo}" target="_blank" rel="noopener">${pr.repo}</a>${pr.live ? ` · <a href="${pr.live}" target="_blank" rel="noopener">live</a>` : ''}`);
+      p(`      ${[pr.repo ? `<a href="${pr.repo}" target="_blank" rel="noopener">${pr.repo}</a>` : '', pr.live ? `<a href="${pr.live}" target="_blank" rel="noopener">live</a>` : ''].filter(Boolean).join(' · ')}`);
     });
     p(`\nTip: <b>open projects</b> for the GUI, or <b>play datasets</b>.`, 'dim');
   },
@@ -814,6 +838,7 @@ student at KPRIET, Arasur — building AI products between classes.
 Before that I interned at Hummingbird Digital, shipping code real users touched.
 
 <span class="mauve"># now</span>
+- <b>SafeSphere</b> — SIH 2026 flood victim-detection (app + BLE mesh + dashboard)
 - production AI email agent (<b>CAREN</b>)
 - real-time voice bot on Exotel + Pipecat
 - a live client website with a Google-Sheets CMS
@@ -840,6 +865,7 @@ STACK
   React · Next.js · Tailwind · MySQL · Docker · Linux
 
 SHIPPED
+  · SafeSphere — SIH 2026 flood victim-detection (app + BLE mesh + dashboard)
   · CAREN — AI email command center (LLM + ML classifier)
   · Exotel × Pipecat — real-time AI phone agent
   · KVMTCC — Next.js site with Google-Sheets CMS (production)
@@ -876,7 +902,7 @@ function projectMd(p) {
 
 ${stripHtml(p.desc)}
 ${techLine}
-<span class="teal">repo</span>  ${p.repo}${liveLine ? `\n<span class="teal">live</span>  ${p.live}` : ''}
+${p.repo ? `<span class="teal">repo</span>  ${p.repo}\n` : ''}${p.live ? `<span class="teal">live</span>  ${p.live}` : ''}
 
 <span class="dim">tip: <b>open projects</b> for the GUI card view.</span>
 </pre>`;
@@ -1088,7 +1114,7 @@ function mountProjects(body) {
             <p class="pc-desc">${p.desc}</p>
             <div class="pc-tech">${p.tech.map(t => `<span class="chip">${t}</span>`).join('')}</div>
             <div class="pc-links">
-              <a class="pc-link" href="${p.repo}" target="_blank" rel="noopener"> code</a>
+              ${p.repo ? `<a class="pc-link" href="${p.repo}" target="_blank" rel="noopener"> code</a>` : ''}
               ${p.live ? `<a class="pc-link" href="${p.live}" target="_blank" rel="noopener"> live</a>` : ''}
             </div>
           </article>
@@ -1105,7 +1131,7 @@ function mountAbout(body) {
       <p class="lead">I build AI products. Data science with scikit-learn, LLM systems with LangChain and Ollama, real-time voice with Pipecat, and the FastAPI + React glue that makes it feel like a product instead of a demo.</p>
 
       <h2>## now</h2>
-      <p>First-year B.Tech Artificial Intelligence &amp; Data Science student at <b>KPRIET</b> (Arasur, Coimbatore). Building AI products on the side: <a href="https://github.com/TGvenomYT/CAREN-agent" target="_blank" rel="noopener">CAREN</a> — an AI email command center — and a real-time AI phone agent on Exotel × Pipecat. Previously interned at <a href="https://github.com/HBDigital" target="_blank" rel="noopener">Hummingbird Digital</a>.</p>
+      <p>First-year B.Tech Artificial Intelligence &amp; Data Science student at <b>KPRIET</b> (Arasur, Coimbatore). Right now: <a href="https://safesphere.me" target="_blank" rel="noopener">SafeSphere</a>, my Smart India Hackathon 2026 flood victim-detection platform. Also building <a href="https://github.com/TGvenomYT/CAREN-agent" target="_blank" rel="noopener">CAREN</a> — an AI email command center — and a real-time AI phone agent on Exotel × Pipecat. Previously interned at <a href="https://github.com/HBDigital" target="_blank" rel="noopener">Hummingbird Digital</a>.</p>
 
       <h2>## how I work</h2>
       <ul>
