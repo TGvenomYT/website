@@ -870,7 +870,8 @@ SHIPPED
   · Exotel × Pipecat — real-time AI phone agent
   · KVMTCC — Next.js site with Google-Sheets CMS (production)
 
-<span class="dim">for the full list: run <b>projects</b></span>
+<span class="teal">PDF</span>  download the full résumé → <b>niranjanr.in/resume.pdf</b>
+<span class="dim">for the full project list: run <b>projects</b></span>
 </pre>`;
 
 const SKILLS_JSON = `{
@@ -3634,12 +3635,8 @@ function activateLauncher() {
   }
 
   function openResume() {
-    // Prefer opening resume.txt in editor if present
-    if (typeof getNode === 'function') {
-      const n = getNode('~/resume.txt') || getNode('~/about.md');
-      if (n && typeof openFsItem === 'function') { openFsItem('~/resume.txt'); return; }
-    }
-    openApp('about');
+    // Open the real résumé PDF in a new tab (view / download / print there).
+    window.open('/resume.pdf', '_blank', 'noopener');
   }
 
   // ---- Cheatsheet ----
